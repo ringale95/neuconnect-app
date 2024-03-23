@@ -19,14 +19,6 @@
         <property name="hibernate.show_sql">true</property>
         <!-- Drop and re-create the database schema on startup -->
         <property name="hibernate.hbm2ddl.auto">update</property>
-        <!-- Retry connection settings -->
-        <property name="hibernate.connection.provider_disables_autocommit">true</property>
-        <property name="hibernate.connection.isolation">2</property>
-        <property name="hibernate.connection.autoReconnect">true</property>
-        <property name="hibernate.connection.autoReconnectForPools">true</property>
-        <property name="hibernate.connection.autocommit">false</property>
-        <property name="hibernate.connection.acquisitionMode">1</property>
-        <property name="hibernate.connection.release_mode">on_close</property>
         <!-- Mention annotated class -->
         <mapping class="edu.neu.neuconnect.model.User"/>
     </session-factory>

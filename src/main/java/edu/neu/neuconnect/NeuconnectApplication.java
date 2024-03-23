@@ -7,7 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class NeuconnectApplication {
 
 	public static void main(String[] args) {
-		System.out.println("Env: " + System.getenv("SPRING_DATASOURCE_URL"));
 		SpringApplication.run(NeuconnectApplication.class, args);
 	}
 

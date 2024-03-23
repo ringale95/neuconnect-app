@@ -3,6 +3,7 @@ version: '3.8'
 services:
   app:
     image: ravinaingale1995/neu-connect:latest
+    restart: always
     ports:
       - "8080:8080"
     environment:
