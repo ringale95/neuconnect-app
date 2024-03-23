@@ -23,7 +23,14 @@ jobs:
         run: mvn clean install
 
       - name: Check Dockerfile format
-        uses: redcoolbeans/check-dockerfile@v1
+        run: |
+          # Install hadolint
+          sudo wget -O /bin/hadolint https://github.com/hadolint/hadolint/releases/latest/download/hadolint-Linux-x86_64
+          sudo chmod +x /bin/hadolint
+          # Check Dockerfile format
+          hadolint Dockerfile
 
       - name: Check Docker Compose format
-        uses: redcoolbeans/check-docker-compose@v1
+        run: |
+          # Validate Docker Compose file syntax
+          docker-compose config --quiet
