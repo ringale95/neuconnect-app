@@ -4,7 +4,7 @@ ENV PORT 8080
 EXPOSE 8080
 EXPOSE 3306
 # Copy the JAR file into the container
-COPY target/*.jar /opt/app.jar
+COPY target/*.war /opt/app.war
 
 # Define entrypoint to execute the JAR file
-ENTRYPOINT exec java $JAVA_OPTS -jar app.jar
+ENTRYPOINT exec java $JAVA_OPTS -jar app.war
