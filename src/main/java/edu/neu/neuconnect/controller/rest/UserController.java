@@ -12,18 +12,17 @@ import java.util.List;
 @RequestMapping("/api/users")
 public class UserController {
 
-//    private final UserDAO userDAO;
-//    @Autowired
-//    public UserController(UserDAO userDAO){
-//        this.userDAO = userDAO;
-//    }
+    private final UserDAO userDAO;
+    @Autowired
+    public UserController(UserDAO userDAO){
+        this.userDAO = userDAO;
+    }
 
     @PostMapping
     @ResponseBody
     public User createUser(@RequestBody User user){
         try {
-            return null;
-                    //userDAO.createUser(user);
+            return userDAO.createUser(user);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -34,7 +33,7 @@ public class UserController {
     @ResponseBody
     public List<User> getAllUsers(){
         try {
-            return null;//userDAO.list();
+            return userDAO.list();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -44,7 +43,7 @@ public class UserController {
     @ResponseBody
     public User getUserByID(@PathVariable long id){
         try {
-            return null;// userDAO.getUserByID(id);
+            return userDAO.getUserByID(id);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

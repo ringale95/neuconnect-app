@@ -4,8 +4,8 @@
     <session-factory>
         <!-- JDBC Database connection settings -->
         <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/neuconnect-db?createDatabaseIfNotExist=true</property>
-        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.connection.url">jdbc:mysql://db:3306/test?autoReconnect=true&amp;allowPublicKeyRetrieval=true&amp;useSSL=false&amp;createDatabaseIfNotExist=true</property>
+        <property name="hibernate.connection.username">admin</property>
         <property name="hibernate.connection.password">root</property>
         <!-- JDBC connection pool settings -->
         <property name="hibernate.c3p0.min_size">5</property>
@@ -20,7 +20,6 @@
         <!-- Drop and re-create the database schema on startup -->
         <property name="hibernate.hbm2ddl.auto">update</property>
         <!-- Mention annotated class -->
-           <mapping class="edu.neu.neuconnect.model.User"/>
-<!--        <mapping class="me.raveenaingale.crs.models.Report"/>-->
+        <mapping class="edu.neu.neuconnect.model.User"/>
     </session-factory>
 </hibernate-configuration>

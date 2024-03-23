@@ -12,7 +12,8 @@
 	<artifactId>neuconnect</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>neuconnect</name>
-	<description>Pproject for Spring Boot</description>
+	<description>Project for Spring Boot</description>
+	<packaging>war</packaging>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
@@ -27,15 +28,19 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<optional>true</optional>
+		    <groupId>org.projectlombok</groupId>
+		    <artifactId>lombok</artifactId>
+		    <version>1.18.32</version>
+		    <scope>provided</scope>
 		</dependency>
+
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
 		<!-- JUnit 5 -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -124,6 +129,11 @@
 						</exclude>
 					</excludes>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>versions-maven-plugin</artifactId>
+				<version>2.16.2</version>
 			</plugin>
 		</plugins>
 	</build>

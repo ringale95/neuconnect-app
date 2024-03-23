@@ -9,6 +9,7 @@ import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 
+@Repository
 public class UserDAO extends DAO{
     public User createUser(User user) throws Exception {
         try {
