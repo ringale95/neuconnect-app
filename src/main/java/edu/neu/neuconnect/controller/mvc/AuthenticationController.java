@@ -6,13 +6,11 @@ import jakarta.servlet.http.HttpSession;
 import org.hibernate.HibernateException;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.hibernate.HibernateException;
-import org.hibernate.query.Query;
+
 
 import java.util.Base64;
 import java.util.HashMap;
@@ -44,7 +42,6 @@ public class AuthenticationController {
             return new ModelAndView("login", model);
         }
     }
-
     @GetMapping("/login")
     public ModelAndView showLoginPage(@RequestParam(required = false) String status){
         Map<String, Object> model = new HashMap<>();
@@ -66,4 +63,13 @@ public class AuthenticationController {
             return false;
         }
     }
+    @GetMapping("/verify")
+    public String verifyUser(@RequestParam("token") String token) {
+        if (userDAO.verifyUser(token)) {
+            return "redirect:/neuconnect/login?status=verified";
+        } else {
+            return "redirect:/neuconnect/login?status=verification_failed";
+        }
+    }
+
 }

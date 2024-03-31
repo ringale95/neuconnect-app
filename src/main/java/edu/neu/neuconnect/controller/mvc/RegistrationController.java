@@ -2,6 +2,7 @@ package edu.neu.neuconnect.controller.mvc;
 
 import edu.neu.neuconnect.dao.UserDAO;
 import edu.neu.neuconnect.model.User;
+import edu.neu.neuconnect.service.EmailService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,10 +22,12 @@ import java.util.Map;
 public class RegistrationController {
 
     private final UserDAO userDAO;
+    private final EmailService emailService;
 
     @Autowired
-    public RegistrationController(UserDAO userDAO) {
+    public RegistrationController(UserDAO userDAO, EmailService emailService) {
         this.userDAO = userDAO;
+        this.emailService = emailService;
     }
 
     @GetMapping("/register")
@@ -72,6 +75,10 @@ public class RegistrationController {
             // Handle database exception
             return new ModelAndView("redirect:/neuconnect/register?status=FAILED");
         }
+
+        // Send verification email to the user
+        String verificationLink = "http://localhost:8080/neuconnect/verify?token=" + user.getVerificationToken();
+        emailService.sendVerificationEmail(user.getUsername(), verificationLink);
 
         // Registration successful, redirect to homepage
         session.setAttribute("loggedInUser", user);

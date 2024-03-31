@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Base64;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Repository
 public class UserDAO extends DAO{
@@ -17,6 +18,8 @@ public class UserDAO extends DAO{
             // save user object in the database
             begin();
             byte[] bytes = user.getPassword().getBytes();
+            String verificationToken = generateVerificationToken();
+            user.setVerificationToken(verificationToken);
             ((User) user).setPassword(new String(Base64.getEncoder().encode(bytes)));
             getSession().save(user);
             commit();
@@ -86,5 +89,28 @@ public class UserDAO extends DAO{
             // Handle the exception, log it, or throw a custom exception
             return false;
         }
+    }
+
+    private String generateVerificationToken() {
+        return UUID.randomUUID().toString();
+    }
+
+
+    public boolean verifyUser(String token) {
+        try {
+            begin();
+            Query query = getSession().createQuery("FROM User WHERE verificationToken = :token");
+            query.setParameter("token", token);
+            User user = (User) query.uniqueResult();
+            if (user != null) {
+                user.setVerified(true); // Mark user as verified
+                getSession().update(user); // Update user entity in database
+                commit();
+                return true;
+            }
+        } catch (HibernateException e) {
+            // Handle exception...
+        }
+        return false;
     }
 }

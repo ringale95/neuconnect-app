@@ -23,4 +23,5 @@ public class User {
     private String password;
     private String nuid;
     private boolean isVerified;
+    private String verificationToken;
 }
