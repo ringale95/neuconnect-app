@@ -23,7 +23,6 @@ public class HealthController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-
     @RequestMapping(method = {RequestMethod.OPTIONS, RequestMethod.HEAD})
     public ResponseEntity<?> handleOptionsAndHead() {
         return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);

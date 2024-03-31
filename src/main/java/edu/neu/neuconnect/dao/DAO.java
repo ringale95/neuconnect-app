@@ -37,7 +37,7 @@ public abstract class DAO {
         getSession().getTransaction().commit();
     }
 
-    protected void rollback() {
+    public void rollback() {
         try {
             getSession().getTransaction().rollback();
         } catch (HibernateException e) {
