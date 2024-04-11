@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/neuconnect")
+@RequestMapping("/neu-connect")
 public class LandingController {
 
     @GetMapping

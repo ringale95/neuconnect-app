@@ -40,17 +40,17 @@
   <body class="text-center">
 
 <main class="form-signin">
-  <form id="login-form" method="post">
-    <h1 class="h3 mb-3 fw-normal">Login NEUConnect</h1>
+  <form id="login-form">
+    <h1 class="h3 mb-3 fw-normal">Login CRS</h1>
 
     <div class="form-floating">
-               <input type="text" class="form-control" id="username" name="username" placeholder="Username" required>
-               <label for="username">Username</label>
-           </div>
-           <div class="form-floating">
-               <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
-               <label for="password">Password</label>
-           </div>
+      <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="username" required>
+      <label for="floatingInput">Email address</label>
+    </div>
+    <div class="form-floating">
+      <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password" required>
+      <label for="floatingPassword">Password</label>
+    </div>
     <button class="w-100 btn btn-lg btn-primary" type="submit">Submit</button>
   </form>
   <c:if test="${status eq 'FAILED'}">

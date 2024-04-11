@@ -1,7 +1,7 @@
 import { makeRequest } from "../commons/api.js";
 
 // Wait for page to load using DOMContentLoaded
-if (window.location.pathname.includes('/neuconnect/login')) {
+if (window.location.pathname.includes('/neu-connect/login')) {
     document.addEventListener('DOMContentLoaded', () => {
         const form =  document.getElementById("login-form");
 
@@ -20,15 +20,15 @@ const onSubmitLogin = (event) => {
     // Convert form data to JSON
 
     // Invoke makeRequest(url, method, data, onSuccess, onError)
-    makeRequest("/neuconnect/login", "POST", credentials, onSuccess, onError);
+    makeRequest("/neu-connect/login", "POST", credentials, onSuccess, onError);
 }
 
 const onSuccess = (response) => {
-    window.location.href = '/neuconnect';
-}
+    //showToast("Request successful!!", "success");
 
+}
 const onError = (response) => {
-    window.location.href = '/neuconnect/login?status=FAILED';
+  //showToast("Request Failed", "fail");
 }
 
 export { onSubmitLogin }

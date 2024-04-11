@@ -4,7 +4,7 @@
     <session-factory>
         <!-- JDBC Database connection settings -->
         <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/neuconnect-db?autoReconnect=true&amp;allowPublicKeyRetrieval=true&amp;useSSL=false&amp;createDatabaseIfNotExist=true</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/karma-connect-db?autoReconnect=true&amp;allowPublicKeyRetrieval=true&amp;useSSL=false&amp;createDatabaseIfNotExist=true</property>
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.connection.password">root</property>
         <!-- JDBC connection pool settings -->
@@ -21,5 +21,8 @@
         <property name="hibernate.hbm2ddl.auto">update</property>
         <!-- Mention annotated class -->
         <mapping class="edu.neu.neuconnect.model.User"/>
+        <mapping class="edu.neu.neuconnect.model.Certificate"/>
+        <mapping class="edu.neu.neuconnect.model.Account"/>
+        <mapping class="edu.neu.neuconnect.model.UserProfile"/>
     </session-factory>
 </hibernate-configuration>

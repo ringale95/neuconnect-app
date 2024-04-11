@@ -1,9 +1,10 @@
 import { makeRequest } from "../commons/api.js";
+import { showToast } from "../commons/toast.js";
 
 // Wait for page to load using DOMContentLoaded
-if (window.location.pathname.includes('/neuconnect/register')){
+if (window.location.pathname.includes('/neu-connect/register')){
     document.addEventListener('DOMContentLoaded', () => {
-        const form =  document.getElementById("register-form");
+        const form = document.getElementById("register-form");
 
         // Add event listener on form
         form.addEventListener('submit', onSubmit);
@@ -15,28 +16,18 @@ const onSubmit = (event) => {
 
     // Fetch Form-data
     const formData = new FormData(event.target);
-
-    // Construct user object
-    const user = {
-        fname: formData.get('fname'),
-        lname: formData.get('lname'),
-        nuid: formData.get('nuid'),
-        dob: formData.get('dob'),
-        gender: formData.get('gender'),
-        username: formData.get('username'),
-        password: formData.get('password')
-    };
+    const data = Object.fromEntries(formData.entries());
 
     // Invoke makeRequest(url, method, data, onSuccess, onError)
-    makeRequest("/neuconnect/register", "POST", user, onSuccess, onError);
+    makeRequest("/api/users", "POST", data, onSuccess, onError);
 }
 
 const onSuccess = (response) => {
-    window.location.href = '/neuconnect';
+     showToast("User registered successfully!!", "success");
 }
 
 const onError = (response) => {
-    window.location.href = '/neuconnect/register?status=FAILED';
+     showToast("Request Failed", "fail");
 }
 
 export { onSubmit };
