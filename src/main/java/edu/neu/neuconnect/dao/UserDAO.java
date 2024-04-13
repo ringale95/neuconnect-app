@@ -1,13 +1,11 @@
     package edu.neu.neuconnect.dao;
 
+    import edu.neu.neuconnect.controller.rest.options.PaginationOption;
     import edu.neu.neuconnect.model.User;
     import org.hibernate.HibernateException;
     import org.hibernate.query.Query;
     import org.springframework.stereotype.Repository;
 
-    import javax.persistence.criteria.CriteriaBuilder;
-    import javax.persistence.criteria.CriteriaDelete;
-    import javax.persistence.criteria.Root;
     import java.util.Base64;
     import java.util.List;
     import java.util.Map;
@@ -38,16 +36,22 @@
 
                 // save user object in the database
                 begin();
+                User existingUser = (User) getSession().get(User.class, user.getId());
+                existingUser.setUsername(user.getUsername());
+                existingUser.setGender(user.getGender());
+                existingUser.setDob(user.getDob());
+                existingUser.setNuid(user.getNuid());
+                existingUser.setFname(user.getFname());
+                existingUser.setLname(user.getLname());
+                existingUser.setUsername(user.getUsername());
                 byte[] bytes = user.getPassword().getBytes();
-                ((User) user).setPassword(new String(Base64.getEncoder().encode(bytes)));
-                getSession().merge(user);
+                existingUser.setPassword(new String(Base64.getEncoder().encode(bytes))); // Encode the new password inline
+                getSession().merge(existingUser);
                 commit();
                 close();
-
-                return user;
+                return existingUser;
             } catch (HibernateException e) {
                 rollback();
-                // throw new AdException("Could not create user " + username, e);
                 throw new Exception("Exception while creating user: " + e.getMessage());
             }
         }
@@ -106,15 +110,23 @@
                     // Decode the stored password and compare it with the provided password
                     byte[] decodedPasswordBytes = Base64.getDecoder().decode(user.getPassword());
                     String decodedPassword = new String(decodedPasswordBytes);
-                    return decodedPassword.equals(password);
+                    boolean isAuthenticated = decodedPassword.equals(password);
+                    if (!isAuthenticated) {
+                        System.out.println("Password does not match for user: " + username);
+                    }
+                    return isAuthenticated;
+                } else {
+                    System.out.println("User not found for username: " + username);
+                    return false;
                 }
-                return false;
             } catch (HibernateException e) {
                 rollback();
+                System.out.println("Error authenticating user: " + e.getMessage());
                 // Handle the exception, log it, or throw a custom exception
                 return false;
             }
         }
+
 
         public void deleteUserById(long id) throws Exception {
             try {
@@ -127,6 +139,23 @@
             } catch (HibernateException e) {
                 rollback();
                 throw new Exception("Error deleting user with ID: " + id, e);
+            }
+        }
+
+        public List<User> pagination(PaginationOption options) {
+            int firstResult = (options.getPageNumber() - 1) * options.getPageSize();
+            try {
+                begin();
+                Query query = getSession().createQuery("FROM User");
+                query.setFirstResult(firstResult);
+                query.setMaxResults(options.getPageSize());
+                List<User> users = query.list();
+                commit();
+                close();
+                return users;
+            } catch (HibernateException e) {
+                rollback();
+                throw new RuntimeException(e);
             }
         }
     }

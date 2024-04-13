@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 public class WebConfig {
 
     @Bean
-    public FilterRegistrationBean<AuthFilter> AuthenticationFilter() {
+    public FilterRegistrationBean<AuthFilter> authenticationFilter() {
         FilterRegistrationBean<AuthFilter> registrationBean = new FilterRegistrationBean<>();
         registrationBean.setFilter(new AuthFilter());
         registrationBean.addUrlPatterns("/api/users/*");

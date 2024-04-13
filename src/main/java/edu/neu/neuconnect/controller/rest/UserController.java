@@ -1,5 +1,7 @@
 package edu.neu.neuconnect.controller.rest;
 
+import edu.neu.neuconnect.controller.rest.options.PaginationOption;
+import edu.neu.neuconnect.controller.rest.types.PaginationResponseType;
 import edu.neu.neuconnect.dao.UserDAO;
 import edu.neu.neuconnect.model.User;
 import jakarta.servlet.http.HttpServletRequest;
@@ -11,19 +13,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
-@RequestMapping("/api")
+@RequestMapping("/api/users")
 public class UserController {
-
     private final UserDAO userDAO;
     @Autowired
     public UserController(UserDAO userDAO){
         this.userDAO = userDAO;
     }
 
-    @PostMapping("/create")
+    @PostMapping()
     @ResponseBody
     public User createUser(@RequestBody User user){
         try {
@@ -34,19 +37,10 @@ public class UserController {
 
     }
 
-    @GetMapping("/users/all")
-    @ResponseBody
-    public List<User> getAllUsers(){
-        try {
-            return userDAO.list();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @GetMapping("/users/{id}")
+    @GetMapping("/{id}")
     @ResponseBody
     public User getUserByID(@PathVariable long id, HttpServletRequest request){
+        System.out.println("Printing get id" +id);
         try {
             return userDAO.getUserByID(id);
         } catch (Exception e) {
@@ -54,49 +48,36 @@ public class UserController {
         }
     }
 
-    @PostMapping("/auth")
-    @ResponseBody
-    public void auth(@RequestBody User user, HttpServletRequest request, HttpServletResponse response) {
-        try {
-            if (userDAO.authenticateUser(user.getUsername(), user.getPassword())) {
-                HttpSession session = request.getSession();
-                session.setAttribute("username", user.getUsername());
-                session.setAttribute("userId", user.getId());
-                response.setStatus(HttpStatus.OK.value());
-            } else {
-                response.setStatus(HttpStatus.UNAUTHORIZED.value());
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
 
-    @DeleteMapping("/users/delete/{id}")
+
+    @DeleteMapping("/{id}")
     @ResponseBody
-    public void deleteUserById(@PathVariable long id, HttpServletResponse response) {
+    public void deleteUserById(@PathVariable long id) {
         try {
             userDAO.deleteUserById(id);
-            response.setStatus(HttpStatus.OK.value());
         } catch (Exception e) {
             throw new RuntimeException("Error deleting user with ID: " + id, e);
         }
     }
 
-    @PutMapping("/users/update")
+    @PatchMapping("/{id}")
     @ResponseBody
-    public ResponseEntity updateUser(@RequestBody User user, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ResponseEntity updateUser(@PathVariable long id, @RequestBody User user) {
         try {
-             User u = userDAO.updateUser(user);
-            return ResponseEntity.ok().body(u);
+            user.setId(id);
+            User updatedUser = userDAO.updateUser(user);
+            return ResponseEntity.ok().body(updatedUser);
         } catch (Exception e) {
-            throw new RuntimeException("Error deleting user with ID: " + user.getId(), e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating user with ID: " + id);
         }
     }
 
-    @GetMapping("/logout")
+    @PostMapping("/fetch")
     @ResponseBody
-    public void logout(HttpServletRequest request, HttpServletResponse response){
-        request.getSession().invalidate();
-        response.setStatus(HttpStatus.OK.value());
+    public ResponseEntity pagination(@RequestBody PaginationOption options){
+        List<User> records = userDAO.pagination(options);
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(new PaginationResponseType(records, options.getPageNumber(), options.getPageSize()));
     }
 }
