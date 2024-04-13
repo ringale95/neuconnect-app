@@ -92,4 +92,11 @@ public class UserController {
             throw new RuntimeException("Error deleting user with ID: " + user.getId(), e);
         }
     }
+
+    @GetMapping("/logout")
+    @ResponseBody
+    public void logout(HttpServletRequest request, HttpServletResponse response){
+        request.getSession().invalidate();
+        response.setStatus(HttpStatus.OK.value());
+    }
 }
