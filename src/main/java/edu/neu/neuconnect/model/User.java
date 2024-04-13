@@ -16,7 +16,6 @@ public class User {
     private long id;
     private String fname;
     private String lname;
-    private int age;
     private String gender;
     private Date dob;
     private String username;
