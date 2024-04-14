@@ -8,27 +8,11 @@
 
     import java.util.Base64;
     import java.util.List;
-    import java.util.Map;
 
     @Repository
-    public class UserDAO extends DAO{
-        public User createUser(User user) throws Exception {
-            try {
-
-                // save user object in the database
-                begin();
-                byte[] bytes = user.getPassword().getBytes();
-                ((User) user).setPassword(new String(Base64.getEncoder().encode(bytes)));
-                getSession().save(user);
-                commit();
-                close();
-
-                return user;
-            } catch (HibernateException e) {
-                rollback();
-                // throw new AdException("Could not create user " + username, e);
-                throw new Exception("Exception while creating user: " + e.getMessage());
-            }
+    public class UserDAO extends DAO<User>{
+        public UserDAO() {
+            super(User.class, "User");
         }
 
         public User updateUser(User user) throws Exception {
@@ -56,46 +40,7 @@
             }
         }
 
-        public List<User> list() throws Exception {
-            try {
-                // Fetch all user objects from the database
-                begin();
-                Query query = getSession().createQuery("from User");
-                List<User> userList = query.list();
-                commit();
-                close();
 
-                return userList;
-            } catch (HibernateException e) {
-                rollback();
-                // throw new AdException("Could not fetch user list", e);
-                throw new Exception("Exception while getting user list: " + e.getMessage());
-            }
-        }
-
-        public User getUserByID(long id) throws Exception {
-            try {
-                // Fetch user object from the database based on id
-                begin();
-                User user = getSession().get(User.class, id);
-                commit();
-                close();
-
-                return user;
-            } catch (HibernateException e) {
-
-                rollback();
-                // throw new AdException("Could not fetch user with id: " + id, e);
-                throw new Exception("Exception while fetching user with id: " + id + ", " + e.getMessage());
-            }
-
-        }
-
-
-        @Override
-        public List search(Map<String, String> criteria) throws Exception {
-            return null;
-        }
 
         public boolean authenticateUser(String username, String password) {
             try {
@@ -127,32 +72,15 @@
             }
         }
 
-
-        public void deleteUserById(long id) throws Exception {
+        public User getUserByUsername(String username) {
             try {
                 begin();
-                Query query = getSession().createQuery("delete User WHERE id = :ID");
-                query.setParameter("ID", id);
-                int result = query.executeUpdate();
+                Query query = getSession().createQuery("FROM User WHERE username = :username");
+                query.setParameter("username", username);
+                User user = (User) query.uniqueResult();
                 commit();
                 close();
-            } catch (HibernateException e) {
-                rollback();
-                throw new Exception("Error deleting user with ID: " + id, e);
-            }
-        }
-
-        public List<User> pagination(PaginationOption options) {
-            int firstResult = (options.getPageNumber() - 1) * options.getPageSize();
-            try {
-                begin();
-                Query query = getSession().createQuery("FROM User");
-                query.setFirstResult(firstResult);
-                query.setMaxResults(options.getPageSize());
-                List<User> users = query.list();
-                commit();
-                close();
-                return users;
+                return user;
             } catch (HibernateException e) {
                 rollback();
                 throw new RuntimeException(e);

@@ -22,13 +22,13 @@ public class AuthController {
     public void auth(@RequestBody User user, HttpServletRequest request, HttpServletResponse response) {
         try {
             if (userDAO.authenticateUser(user.getUsername(), user.getPassword())) {
+                // Fetch User from DB
+                User exisitingUser = userDAO.getUserByUsername(user.getUsername());
+
                 HttpSession session = request.getSession();
-                session.setAttribute("user", user);
+                session.setAttribute("user", exisitingUser);
+                session.setAttribute("userId", exisitingUser.getId());
 
-                session.setAttribute("userId", user.getId());
-                System.out.println("UserId attribute set in session: " + session.getAttribute("userId"));
-
-                System.out.println("Authenticated!");
                 response.setStatus(HttpStatus.OK.value());
             } else {
                 // Handle authentication failure

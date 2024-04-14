@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,7 @@ import java.util.Map;
 @RequestMapping("/api/users")
 public class UserController {
     private final UserDAO userDAO;
+
     @Autowired
     public UserController(UserDAO userDAO){
         this.userDAO = userDAO;
@@ -30,7 +32,9 @@ public class UserController {
     @ResponseBody
     public User createUser(@RequestBody User user){
         try {
-            return userDAO.createUser(user);
+            byte[] bytes = user.getPassword().getBytes();
+            user.setPassword(new String(Base64.getEncoder().encode(bytes)));
+            return userDAO.create(user);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -40,9 +44,8 @@ public class UserController {
     @GetMapping("/{id}")
     @ResponseBody
     public User getUserByID(@PathVariable long id, HttpServletRequest request){
-        System.out.println("Printing get id" +id);
         try {
-            return userDAO.getUserByID(id);
+            return userDAO.getById(id);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -54,7 +57,7 @@ public class UserController {
     @ResponseBody
     public void deleteUserById(@PathVariable long id) {
         try {
-            userDAO.deleteUserById(id);
+            userDAO.deleteById(id);
         } catch (Exception e) {
             throw new RuntimeException("Error deleting user with ID: " + id, e);
         }
@@ -78,6 +81,6 @@ public class UserController {
         List<User> records = userDAO.pagination(options);
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
-                .body(new PaginationResponseType(records, options.getPageNumber(), options.getPageSize()));
+                .body(new PaginationResponseType<User>(records, options.getPageNumber(), options.getPageSize()));
     }
 }

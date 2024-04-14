@@ -13,7 +13,9 @@ public class WebConfig {
         FilterRegistrationBean<AuthFilter> registrationBean = new FilterRegistrationBean<>();
         registrationBean.setFilter(new AuthFilter());
         registrationBean.addUrlPatterns("/api/users/*");
+        registrationBean.addUrlPatterns("/api/posts/*");
         registrationBean.setOrder(1);
         return registrationBean;
     }
+
 }

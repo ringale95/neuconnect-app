@@ -3,24 +3,24 @@ package edu.neu.neuconnect.controller.rest.types;
 import edu.neu.neuconnect.model.User;
 import java.util.List;
 
-public class PaginationResponseType {
+public class PaginationResponseType<T> {
 
-    private List<User> records;
+    private List<T> records;
     private int pageNumber;
     private int count;
 
-    public PaginationResponseType(List<User> records, int pageNumber, int pageSize) {
+    public PaginationResponseType(List<T> records, int pageNumber, int pageSize) {
         this.records = records;
         this.pageNumber = pageNumber;
         this.count = pageSize;
     }
 
 
-    public List<User> getRecords() {
+    public List<T> getRecords() {
         return records;
     }
 
-    public void setRecords(List<User> records) {
+    public void setRecords(List<T> records) {
         this.records = records;
     }
 
@@ -40,9 +40,4 @@ public class PaginationResponseType {
         this.count = count;
     }
 
-    public String toString(){
-        return "{\"pageNumber\":"+ this.getPageNumber()
-                +",\"records\":\""+ this.getRecords()
-                +",\"count\":" + this.getCount()+"}";
-    }
 }
