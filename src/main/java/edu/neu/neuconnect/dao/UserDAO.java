@@ -86,4 +86,9 @@
                 throw new RuntimeException(e);
             }
         }
+
+        @Override
+        public List<User> pagination(PaginationOption options){
+            return null;
+        }
     }
