@@ -1,15 +1,17 @@
 package edu.neu.neuconnect.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
 @Data
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@NamedQuery(name="all roles", query ="FROM User")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,4 +24,6 @@ public class User {
     private String password;
     private String nuid;
     private boolean isVerified;
+    @Enumerated(EnumType.STRING)
+    private RoleTypes role;
 }

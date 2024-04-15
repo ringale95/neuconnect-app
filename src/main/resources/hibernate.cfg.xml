@@ -21,5 +21,7 @@
         <property name="hibernate.hbm2ddl.auto">update</property>
         <!-- Mention annotated class -->
         <mapping class="edu.neu.neuconnect.model.User"/>
+        <mapping class="edu.neu.neuconnect.model.Post"/>
+        <mapping class="edu.neu.neuconnect.model.Comment"/>
     </session-factory>
 </hibernate-configuration>
