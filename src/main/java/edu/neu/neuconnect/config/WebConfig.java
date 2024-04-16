@@ -16,7 +16,7 @@ public class WebConfig {
     @Autowired
     private UserDAO userDAO;
 
-    @Bean
+//    @Bean
     public FilterRegistrationBean<AuthFilter> authenticationFilter() {
         FilterRegistrationBean<AuthFilter> registrationBean = new FilterRegistrationBean<>();
         registrationBean.setFilter(new AuthFilter());
@@ -30,7 +30,7 @@ public class WebConfig {
     public FilterRegistrationBean<AuthMVCFilter> authenticationMVCFilter() {
         FilterRegistrationBean<AuthMVCFilter> registrationBean = new FilterRegistrationBean<>();
         registrationBean.setFilter(new AuthMVCFilter());
-        registrationBean.addUrlPatterns("/user-dashboard/*");
+       // registrationBean.addUrlPatterns("/user-dashboard/*");
         registrationBean.addUrlPatterns("/feed");
         registrationBean.setOrder(1);
         return registrationBean;
@@ -46,7 +46,7 @@ public class WebConfig {
     }
 
 
-    @Bean
+//    @Bean
     public FilterRegistrationBean<CheckAdmin> checkAdmin() {
         FilterRegistrationBean<CheckAdmin> registrationBean = new FilterRegistrationBean<>();
         registrationBean.setFilter(new CheckAdmin());

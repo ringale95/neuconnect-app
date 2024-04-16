@@ -26,4 +26,16 @@ public class User {
     private boolean isVerified;
     @Enumerated(EnumType.STRING)
     private RoleTypes role;
+
+    public User(String fname, String lname, String gender, Date dob, String username, String password, String nuid, boolean isVerified, RoleTypes role) {
+        this.fname = fname;
+        this.lname = lname;
+        this.gender = gender;
+        this.dob = dob;
+        this.username = username;
+        this.password = password;
+        this.nuid = nuid;
+        this.isVerified = isVerified;
+        this.role = role;
+    }
 }
