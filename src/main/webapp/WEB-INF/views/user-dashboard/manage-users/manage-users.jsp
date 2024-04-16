@@ -19,6 +19,7 @@
             flex-direction: column;
         }
     </style>
+    <script type="module" src="${pageContext.request.contextPath}/js/index.js"></script>
 </head>
 <body>
    <cm:header/>
@@ -26,8 +27,8 @@
         <h2>Manage Users</h2>
         <div class="container-body">
             <div class="input-group mb-3 mt-3">
-                        <input type="text" class="form-control" placeholder="Search..." aria-label="Search">
-                        <button class="btn btn-primary" type="button">Search</button>
+                        <input type="text" id = "search-field" class="form-control" placeholder="Search..." aria-label="Search">
+                        <button id = "search-button" class="btn btn-primary" type="button">Search</button>
                     </div>
                     <table class="table table-hover table-bordered mt-3 text-center">
                         <thead>

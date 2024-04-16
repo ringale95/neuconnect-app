@@ -1,5 +1,6 @@
 package edu.neu.neuconnect.controller.mvc;
 
+import edu.neu.neuconnect.controller.rest.options.FilterOption;
 import edu.neu.neuconnect.controller.rest.options.PaginationOption;
 import edu.neu.neuconnect.dao.UserDAO;
 import edu.neu.neuconnect.model.User;
@@ -29,7 +30,7 @@ public class UserDashboardController {
     @GetMapping("/manage-users")
     public ModelAndView manageUsers() throws Exception {
         Map<String, List> model = new HashMap<>();
-        List<User> users = userDAO.pagination(new PaginationOption(12,1, null));
+        List<User> users = userDAO.pagination(new PaginationOption(12,1, new FilterOption()));
         model.put("users", users);
         return new ModelAndView("user-dashboard/manage-users/manage-users", model);
     }
