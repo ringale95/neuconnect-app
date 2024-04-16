@@ -129,14 +129,14 @@
             Root<User> root = criteriaQuery.from(User.class);
 
             // Supply Predicates
-            criteriaQuery.select(root).where(getFilterOptions(criteriaBuilder, filterOption, root));
+            criteriaQuery.select(root).where(getPredicateByFilterOption(criteriaBuilder, filterOption, root));
             Query<User> query = getSession().createQuery(criteriaQuery);
 
             return query;
         }
 
 
-        private Predicate getFilterOptions(CriteriaBuilder criteriaBuilder, FilterOption filterOption, Root<User> root) {
+        private Predicate getPredicateByFilterOption(CriteriaBuilder criteriaBuilder, FilterOption filterOption, Root<User> root) {
             Predicate fnameMatch = criteriaBuilder.like(root.get("fname"), "%" + filterOption.getSearchKey() + "%");
             Predicate lnameMatch = criteriaBuilder.like(root.get("lname"), "%" + filterOption.getSearchKey() + "%");
             Predicate usernameMatch = criteriaBuilder.like(root.get("username"), "%" + filterOption.getSearchKey() + "%");
