@@ -29,9 +29,11 @@ public class UserDashboardController {
 
     @GetMapping("/manage-users")
     public ModelAndView manageUsers() throws Exception {
-        Map<String, List> model = new HashMap<>();
+        Map<String, Object> model = new HashMap<>();
         List<User> users = userDAO.pagination(new PaginationOption(12,1, new FilterOption()));
         model.put("users", users);
+        model.put("pageNumber", 1);
+        model.put("totalPages", userDAO.getPageCount(new PaginationOption(12,1, new FilterOption())));
         return new ModelAndView("user-dashboard/manage-users/manage-users", model);
     }
 
