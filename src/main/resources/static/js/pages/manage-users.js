@@ -7,9 +7,9 @@ if (window.location.pathname.includes('/manage-users')) {
   document.addEventListener('DOMContentLoaded', () => {
 
     // Attach the onSubmit function to the button click event
-    const searchButton = document.getElementById('search-button');
-    if (searchButton) {
-      searchButton.addEventListener('click', loadResults);
+    const searchField = document.getElementById('search-field');
+    if (searchField) {
+      searchField.addEventListener('input', loadResults);
     }
 
   });
