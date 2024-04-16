@@ -27,44 +27,51 @@
         <h2>Manage Users</h2>
         <div class="container-body">
             <div class="input-group mb-3 mt-3">
-                        <input type="text" id = "search-field" class="form-control" placeholder="Search..." aria-label="Search">
-                    </div>
-                    <table class="table table-hover table-bordered mt-3 text-center">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Role</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <c:forEach var="user" items="${users}">
-                                <tr>
-                                    <td>${user.id}</td>
-                                    <td>${user.fname} ${user.lname}</td>
-                                    <td>${user.username}</td>
-                                    <td>${user.role.name()}</td> <!-- Access the role enum's name -->
-                                    <td>
-                                        <a href="/user-dashboard/manage-users/${user.id}/edit" class="btn btn-primary btn-sm">Edit</a>
-                                    </td>
-                                </tr>
-                            </c:forEach>
-                        </tbody>
-                    </table>
-                    <div class="dropdown mt-3">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                            Filter by Role
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <li><a class="dropdown-item" href="#">Admin</a></li>
-                            <li><a class="dropdown-item" href="#">Authority</a></li>
-                            <li><a class="dropdown-item" href="#">User</a></li>
-                        </ul>
-                        <button class="btn btn-link">&lt; Previous </button>
-                        <button class="btn btn-link">Next &gt; </button>
-                    </div>
+                <input type="text" id = "search-field" class="form-control" placeholder="Search..." aria-label="Search">
+                <div class="dropdown ml-2">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                        Filter by Role
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <li><a class="dropdown-item" href="#">Admin</a></li>
+                        <li><a class="dropdown-item" href="#">Authority</a></li>
+                        <li><a class="dropdown-item" href="#">Student</a></li>
+                    </ul>
+                </div>
+            </div>
+            <table class="table table-hover table-bordered mt-3 text-center">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:forEach var="user" items="${users}">
+                        <tr>
+                            <td>${user.id}</td>
+                            <td>${user.fname} ${user.lname}</td>
+                            <td>${user.username}</td>
+                            <td>${user.role.name()}</td> <!-- Access the role enum's name -->
+                            <td>
+                                <a href="/user-dashboard/manage-users/${user.id}/edit" class="btn btn-primary btn-sm">Edit</a>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
+            <div class="row w-100">
+                <div class="col text-left">
+                    <strong>Current:</strong> <span id="page-number" value="${pageNumber}">${pageNumber}</span> &nbsp;<strong>Total:</strong> <span id="total-count" value="${totalPages}">${totalPages}</span>
+                </div>
+                <div class="col text-end">
+                    <button id="previous" class="btn btn-link">&lt; Previous </button>
+                    <button id="next" class="btn btn-link">Next &gt; </button>
+                </div>
+            </div>
         </div>
 
     </div>
