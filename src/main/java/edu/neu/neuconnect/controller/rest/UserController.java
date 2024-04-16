@@ -68,7 +68,7 @@ public class UserController {
     public ResponseEntity updateUser(@PathVariable long id, @RequestBody User user) {
         try {
             user.setId(id);
-            User updatedUser = userDAO.updateUser(user);
+            User updatedUser = userDAO.partialUpdate(user);
             return ResponseEntity.ok().body(updatedUser);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating user with ID: " + id);
@@ -79,8 +79,15 @@ public class UserController {
     @ResponseBody
     public ResponseEntity pagination(@RequestBody PaginationOption options){
         List<User> records = userDAO.pagination(options);
+        int pageCount = userDAO.getPageCount(options);
         return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
-                .body(new PaginationResponseType<User>(records, options.getPageNumber(), options.getPageSize()));
+                .status(HttpStatus.OK)
+                .body(new PaginationResponseType<User>(records, options.getPageNumber(), pageCount));
+    }
+
+    @GetMapping("/all")
+    @ResponseBody
+    public List all() throws Exception {
+        return userDAO.list();
     }
 }

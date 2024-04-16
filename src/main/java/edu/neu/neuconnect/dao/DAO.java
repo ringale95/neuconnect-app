@@ -99,7 +99,7 @@ public abstract class DAO<T> {
         try {
             // Fetch all user objects from the database
             begin();
-            Query query = getSession().createQuery("from " + table);
+            Query query = getSession().createQuery("FROM " + table);
             List<T> list = query.list();
             commit();
             close();
