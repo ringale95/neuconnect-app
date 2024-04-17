@@ -23,5 +23,7 @@
         <mapping class="edu.neu.neuconnect.model.User"/>
         <mapping class="edu.neu.neuconnect.model.Post"/>
         <mapping class="edu.neu.neuconnect.model.Comment"/>
+        <mapping class="edu.neu.neuconnect.model.Certificate"/>
+        <mapping class="edu.neu.neuconnect.model.Notification"/>
     </session-factory>
 </hibernate-configuration>

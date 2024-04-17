@@ -1,6 +1,7 @@
 package edu.neu.neuconnect.controller.rest.options;
 
 import com.sun.istack.NotNull;
+import edu.neu.neuconnect.model.NotificationStatus;
 import lombok.Data;
 import lombok.ToString;
 
@@ -11,4 +12,5 @@ public class FilterOption {
     private boolean admin;
     private boolean student;
     private boolean authority;
+    private NotificationStatus status;
 }

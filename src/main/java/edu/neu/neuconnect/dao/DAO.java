@@ -142,4 +142,15 @@ public abstract class DAO<T> {
         }
     }
 
+    public void update(User existingUser) throws Exception {
+        try {
+            begin();
+            getSession().merge(existingUser);
+            commit();
+            close();
+        } catch (HibernateException e) {
+            rollback();
+            throw new Exception("Exception while creating user: " + e.getMessage());
+        }
+    }
 }
