@@ -1,11 +1,14 @@
 package edu.neu.neuconnect.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
@@ -27,6 +30,11 @@ public class User {
     @Enumerated(EnumType.STRING)
     private RoleTypes role;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Certificate> certificates = new ArrayList<>();
+
+
     public User(String fname, String lname, String gender, Date dob, String username, String password, String nuid, boolean isVerified, RoleTypes role) {
         this.fname = fname;
         this.lname = lname;
@@ -37,5 +45,10 @@ public class User {
         this.nuid = nuid;
         this.isVerified = isVerified;
         this.role = role;
+    }
+
+    public void addCertificate(Certificate certificate) {
+        certificates.add(certificate);
+        certificate.setUser(this);
     }
 }

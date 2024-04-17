@@ -2,6 +2,7 @@
 
     import edu.neu.neuconnect.controller.rest.options.FilterOption;
     import edu.neu.neuconnect.controller.rest.options.PaginationOption;
+    import edu.neu.neuconnect.model.Certificate;
     import edu.neu.neuconnect.model.RoleTypes;
     import edu.neu.neuconnect.model.User;
     import org.hibernate.HibernateException;
@@ -156,4 +157,17 @@
             return orExpression;
         }
 
+        public void addCertificateToUser(long id, Certificate certificate) throws Exception {
+            try {
+                begin();
+                User existingUser = getSession().get(User.class, id);
+                existingUser.addCertificate(certificate);
+                getSession().merge(existingUser);
+                commit();
+                close();
+            } catch (HibernateException e) {
+                rollback();
+                throw new Exception("Exception while creating user: " + e.getMessage());
+            }
+        }
     }

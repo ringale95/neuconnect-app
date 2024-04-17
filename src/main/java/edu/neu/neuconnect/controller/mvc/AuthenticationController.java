@@ -21,6 +21,11 @@ public class AuthenticationController {
     @Autowired
     private UserDAO userDAO;
 
+    @GetMapping
+    public String showLanding(){
+        return "landing-page";
+    }
+
     @GetMapping("/register")
     public ModelAndView showRegistrationPage(@RequestParam(required = false) String status){
         Map<String, Object> model = new HashMap<>();
@@ -29,16 +34,24 @@ public class AuthenticationController {
     }
 
     @GetMapping("/login")
-    public ModelAndView showLoginPage(@RequestParam("url") String url){
+    public ModelAndView showLoginPage(@RequestParam(value = "url", required = false) String url) {
         Map<String, Object> model = new HashMap<>();
         model.put("url", url);
         return new ModelAndView("login", model);
     }
 
+
     @PostMapping("/login-action")
     public void performLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.sendRedirect(request.getParameter("url"));
+        String url = request.getParameter("url");
+        response.sendRedirect(url.equals("") ? "user-dashboard": url);
         return;
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session){
+        session.invalidate();
+       return "logout";
     }
 
 }
