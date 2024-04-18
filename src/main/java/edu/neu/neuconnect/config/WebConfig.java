@@ -1,10 +1,7 @@
 package edu.neu.neuconnect.config;
 
 import edu.neu.neuconnect.dao.UserDAO;
-import edu.neu.neuconnect.filter.AuthFilter;
-import edu.neu.neuconnect.filter.AuthMVCFilter;
-import edu.neu.neuconnect.filter.CheckAdmin;
-import edu.neu.neuconnect.filter.ValidLoginFilter;
+import edu.neu.neuconnect.filter.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -23,6 +20,8 @@ public class WebConfig {
         registrationBean.addUrlPatterns("/api/users/*");
         registrationBean.addUrlPatterns("/api/posts/*");
         registrationBean.addUrlPatterns("/api/notifications/*");
+        registrationBean.addUrlPatterns("/api/login/*");
+
         registrationBean.setOrder(1);
         return registrationBean;
     }
@@ -35,6 +34,7 @@ public class WebConfig {
         registrationBean.addUrlPatterns("/feed");
         registrationBean.addUrlPatterns("/pushes");
         registrationBean.addUrlPatterns("/logout");
+        registrationBean.addUrlPatterns("/services/*");
         registrationBean.setOrder(1);
         return registrationBean;
     }
@@ -54,6 +54,15 @@ public class WebConfig {
         FilterRegistrationBean<CheckAdmin> registrationBean = new FilterRegistrationBean<>();
         registrationBean.setFilter(new CheckAdmin());
         registrationBean.addUrlPatterns("/user-dashboard/manage-users");
+        registrationBean.setOrder(2);
+        return registrationBean;
+    }
+
+    @Bean
+    public FilterRegistrationBean<CheckTrainer> checkTrainer() {
+        FilterRegistrationBean<CheckTrainer> registrationBean = new FilterRegistrationBean<>();
+        registrationBean.setFilter(new CheckTrainer());
+        registrationBean.addUrlPatterns("/services/trainer-dashboard");
         registrationBean.setOrder(2);
         return registrationBean;
     }

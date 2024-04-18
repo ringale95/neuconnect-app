@@ -2,42 +2,40 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Access Denied</title>
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-lshntDkYsB7u+pL9/jjR5ixLJzEALfFq0X+XkWHRhzGr/lIsOsQiRiWrVS/nFRQi" crossorigin="anonymous">
+    <!-- Custom CSS -->
     <style>
-        body {
-            background-color: #f8f9fa;
-        }
-
         .container {
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            margin-top: 50px;
+            text-align: center;
         }
 
-        .card {
-            max-width: 400px;
+        img {
+            width: 300px;
+            margin-bottom: 20px;
         }
     </style>
 </head>
-<body>
 
+<body>
     <div class="container">
-        <div class="card text-center">
-            <div class="card-body">
-                <h5 class="card-title">Access Denied</h5>
-                <p class="card-text">Sorry, you don't have permission to access this page.</p>
-                <a href="/user-dashboard" class="btn btn-primary">Go to Home</a>
-            </div>
-        </div>
+        <img src="${pageContext.request.contextPath}/images/access-denied.png" alt="Access Denied" class="img-fluid">
+        <h1>Access Denied!</h1>
+        <p>Sorry, you don't have permission to access this page.</p>
+        <a href="/" class="btn btn-primary">Go Back Home</a>
     </div>
 
-    <!-- Bootstrap Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap JS (optional) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Lfv4JIMDo1E7HCrH6eLtwafaxOjJdFfCgQqyjSuhfD8Y+FN1h67CSbcwAM1pF6El" crossorigin="anonymous">
+    </script>
 </body>
+
 </html>
