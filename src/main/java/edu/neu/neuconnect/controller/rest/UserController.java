@@ -3,6 +3,7 @@ package edu.neu.neuconnect.controller.rest;
 import edu.neu.neuconnect.controller.rest.options.PaginationOption;
 import edu.neu.neuconnect.controller.rest.types.PaginationResponseType;
 import edu.neu.neuconnect.dao.NotificationDAO;
+import edu.neu.neuconnect.dao.ServiceDAO;
 import edu.neu.neuconnect.dao.UserDAO;
 import edu.neu.neuconnect.model.Certificate;
 import edu.neu.neuconnect.model.ServiceType;
@@ -31,6 +32,9 @@ import java.util.Map;
 public class UserController {
     private final UserDAO userDAO;
     private final NotificationDAO notificationDAO;
+
+    @Autowired
+    private ServiceDAO serviceDAO;
 
     @Autowired
     public UserController(UserDAO userDAO, NotificationDAO notificationDAO){
@@ -107,7 +111,9 @@ public class UserController {
         Certificate certificate = new Certificate(false, saveFileAndReturnPath(file,id, type), type);
         userDAO.addCertificateToUser(id, certificate);
         notificationDAO.push(id, "For user - "+ id + ", Certificate for type " + type + " added succesfully and is sent for verification!");
-      //  serviceDAO.newRequest(id, "Review Certificate for USER:" + id + " of type:" + type, userDAO.getAuthorityId());
+        long serviceRequestId = serviceDAO.newIndividualRequests(id, "Review Certificate for USER:" + id + " of type:" + type, "",0,userDAO.getAuthorityId());
+        notificationDAO.push(id, "Service Request for Certificate review sent to Authority. The tracking number of service request is " + serviceRequestId);
+        notificationDAO.push(userDAO.getAuthorityId(), "Service Request: "+ serviceRequestId+" for Certificate has been assigned for your review");
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

@@ -44,9 +44,9 @@
         <div class="mb-3">
             <label for="role" class="form-label">Role</label>
             <select class="form-select" id="role" name="role" required>
-                <option value="ADMIN" ${user.role == 'ADMIN' ? 'selected' : ''}>Admin</option>
-                <option value="AUTHORITY" ${user.role == 'AUTHORITY' ? 'selected' : ''}>Authority</option>
-                <option value="STUDENT" ${user.role == 'STUDENT' ? 'selected' : ''}>Student</option>
+                <c:forEach items="${roles}" var="role">
+                    <option value="${role}" ${user.role == role ? 'selected' : ''}>${role}</option>
+                </c:forEach>
             </select>
         </div>
         <button type="submit" class="btn btn-primary">Update</button>

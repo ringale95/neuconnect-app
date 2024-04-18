@@ -3,6 +3,7 @@ package edu.neu.neuconnect.controller.mvc;
 import edu.neu.neuconnect.controller.rest.options.FilterOption;
 import edu.neu.neuconnect.controller.rest.options.PaginationOption;
 import edu.neu.neuconnect.dao.UserDAO;
+import edu.neu.neuconnect.model.RoleTypes;
 import edu.neu.neuconnect.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,9 +40,10 @@ public class UserDashboardController {
 
     @GetMapping("/manage-users/{id}/edit")
     public ModelAndView editUser(@PathVariable long id) throws Exception {
-        Map<String, User> model = new HashMap<>();
+        Map<String, Object> model = new HashMap<>();
         User user = userDAO.getById(id);
         model.put("user", user);
+        model.put("roles", RoleTypes.values());
         return new ModelAndView("user-dashboard/manage-users/edit/user-edit", model);
     }
 }

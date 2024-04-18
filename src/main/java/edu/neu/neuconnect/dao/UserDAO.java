@@ -170,4 +170,43 @@
                 throw new Exception("Exception while creating user: " + e.getMessage());
             }
         }
+
+        public boolean isVerifiedAsTrainer(long userId) throws Exception {
+            try {
+                begin();
+                User existingUser = getSession().get(User.class, userId);
+                boolean isVerified = isCertificateListFitnessVerified(existingUser.getCertificates());
+                commit();
+                close();
+                return isVerified;
+            } catch (HibernateException e) {
+                rollback();
+                throw new Exception("Exception while creating user: " + e.getMessage());
+            }
+        }
+
+        private boolean isCertificateListFitnessVerified(List<Certificate> certificates) {
+            if(certificates.size() == 0)
+                return false;
+            for(Certificate certificate : certificates){
+                if(certificate.isApprovedAsFitness())
+                    return true;
+            }
+            return false;
+        }
+
+        public long getAuthorityId() {
+            try {
+                begin();
+                Query query = getSession().createQuery("FROM User WHERE role = :type");
+                query.setParameter("type", RoleTypes.AUTHORITY);
+                User user = (User) query.uniqueResult();
+                commit();
+                close();
+                return user.getId();
+            } catch (HibernateException e) {
+                rollback();
+                throw new RuntimeException(e);
+            }
+        }
     }

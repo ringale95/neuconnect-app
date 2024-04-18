@@ -41,6 +41,10 @@ public class AuthController {
         }
     }
 
+    @GetMapping("/login/info")
+    public Long loginInformation(HttpSession session){
+        return (Long) session.getAttribute("userId");
+    }
 
     @GetMapping("/logout")
     public void logout(HttpServletRequest request, HttpServletResponse response){

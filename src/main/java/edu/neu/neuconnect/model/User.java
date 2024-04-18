@@ -23,12 +23,14 @@ public class User {
     private String lname;
     private String gender;
     private Date dob;
+    private int karma = 500;
     private String username;
     private String password;
     private String nuid;
     private boolean isVerified;
     @Enumerated(EnumType.STRING)
     private RoleTypes role;
+    private String profilepicPath = "/images/generic-image.png";
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonIgnore

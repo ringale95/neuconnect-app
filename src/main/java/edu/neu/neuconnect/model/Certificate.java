@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Entity
@@ -26,5 +27,12 @@ public class Certificate {
         this.path = path;
         this.user = user;
         this.type = type;
+    }
+
+    public boolean isApprovedAsFitness() {
+        if(this.isVerified == false)
+            return false;
+        List<ServiceType> types = ServiceType.getFitnessTypes();
+        return this.isVerified && types.contains(this.type);
     }
 }
