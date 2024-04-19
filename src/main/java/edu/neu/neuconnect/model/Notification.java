@@ -9,7 +9,7 @@ import java.util.Date;
 @Entity
 @Data
 @NoArgsConstructor
-public class Notification {
+public class Notification{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -20,4 +20,5 @@ public class Notification {
     private String message;
     @Enumerated(EnumType.STRING)
     private NotificationStatus notificationStatus;
+
 }

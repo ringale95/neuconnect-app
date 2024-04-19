@@ -89,8 +89,8 @@
                     <h2>Fitness</h2>
                     <p>Get fit with our professional trainers.</p>
                     <ul>
-                        <li><a href="register.jsp">Register for a Session</a></li>
-                        <li><a href="/services/trainer-dashboard">If you are a Trainer? &gt; </a></li>
+                        <li><a href="/services/services-list">Register for a Session</a></li>
+                        <li><a href="/services/trainer-dashboard">If you are a Fitness Consultant? &gt; </a></li>
                     </ul>
                 </div>
             </div>
@@ -105,8 +105,8 @@
                     <h2>Tutoring</h2>
                     <p>Improve your skills with our experienced tutors.</p>
                     <ul>
-                        <li><a href="subjects.jsp">Browse Subjects</a></li>
-                        <li><a href="schedule.jsp">View Schedule</a></li>
+                        <li><a href="/services/tutor-dashboard">If you are a Tutor?</a></li>
+                        <li><a href="/services/tutoring-list">Register for Tutoring</a></li>
                     </ul>
                 </div>
                 <div class="col-md-6 service-img rounded"> <!-- Added rounded class -->
@@ -127,8 +127,8 @@
                     <h2>Career Consultation</h2>
                     <p>Plan your career with our expert consultants.</p>
                     <ul>
-                        <li><a href="resume.jsp">Get Resume Help</a></li>
-                        <li><a href="interview.jsp">Schedule an Interview</a></li>
+                        <li><a href="/services/career-dashboard">If you are a career consultant?</a></li>
+                        <li><a href="/services/career-list">Register for Career Consultation</a></li>
                     </ul>
                 </div>
             </div>

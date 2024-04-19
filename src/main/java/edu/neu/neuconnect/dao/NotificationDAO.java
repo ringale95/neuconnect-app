@@ -76,7 +76,9 @@ public class NotificationDAO extends DAO<Notification>{
         Root<Notification> root = criteriaQuery.from(Notification.class);
 
         criteriaQuery.select(root).where(getPredicateByFilterOption(criteriaBuilder, filterOption, root, userId));
+        criteriaQuery.orderBy(criteriaBuilder.desc(root.get("createdAt")));
         Query<Notification> query = getSession().createQuery(criteriaQuery);
+
         return query;
     }
 

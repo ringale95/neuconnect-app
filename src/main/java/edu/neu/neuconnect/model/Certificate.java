@@ -35,4 +35,18 @@ public class Certificate {
         List<ServiceType> types = ServiceType.getFitnessTypes();
         return this.isVerified && types.contains(this.type);
     }
+
+    public boolean isApprovedAsTutor() {
+        if(this.isVerified == false)
+            return false;
+        List<ServiceType> types = ServiceType.getTutorTypes();
+        return this.isVerified && types.contains(this.type);
+    }
+
+    public boolean isApprovedAsCareerConsultant() {
+        if(this.isVerified == false)
+            return false;
+        List<ServiceType> types = ServiceType.getCareerConsultantTypes();
+        return this.isVerified && types.contains(this.type);
+    }
 }

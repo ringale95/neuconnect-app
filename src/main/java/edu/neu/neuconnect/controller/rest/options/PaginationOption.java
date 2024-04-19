@@ -1,38 +1,15 @@
 package edu.neu.neuconnect.controller.rest.options;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class PaginationOption {
     private int pageSize;
-    private FilterOption filterOption;
-
-    public PaginationOption(int pageSize, int pageNumber, FilterOption filterOption) {
-        this.pageNumber = pageNumber;
-        this.pageSize = pageSize;
-        this.filterOption = filterOption;
-    }
-
-    public FilterOption getFilterOption() {
-        return filterOption;
-    }
-
-    public void setFilterOption(FilterOption filterOption) {
-        this.filterOption = filterOption;
-    }
-
-    public int getPageSize() {
-        return pageSize;
-    }
-
-    public void setPageSize(int pageSize) {
-        this.pageSize = pageSize;
-    }
-
-    public int getPageNumber() {
-        return pageNumber;
-    }
-
-    public void setPageNumber(int pageNumber) {
-        this.pageNumber = pageNumber;
-    }
-
     private int pageNumber;
+    private FilterOption filterOption;
+    private SortOption sortOption;
 }

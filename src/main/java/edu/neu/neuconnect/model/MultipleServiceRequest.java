@@ -1,6 +1,7 @@
 package edu.neu.neuconnect.model;
 
 import lombok.Data;
+import org.hibernate.annotations.SortComparator;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -12,7 +13,8 @@ import java.util.List;
 public class MultipleServiceRequest extends ServiceRequest{
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name="ParticipantsMSR", joinColumns=@JoinColumn(name="msr_id"), inverseJoinColumns=@JoinColumn(name="participant_id"))
-    List<User> participants = new ArrayList<>();
+
+    private List<User> participants = new ArrayList<>();
 
     public void addParticipant(User participant){
          participants.add(participant);

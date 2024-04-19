@@ -4,6 +4,7 @@ import edu.neu.neuconnect.dao.UserDAO;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.Base64;
 import java.util.Date;
 import java.util.Iterator;
 
@@ -49,10 +50,14 @@ public class NEUConnectDatabaseMigrationApplication {
             boolean isVerified = row.getCell(7).getBooleanCellValue();
             RoleTypes role = RoleTypes.valueOf(row.getCell(8).getStringCellValue());
             User user = new User(fname, lname, gender,dob,username,password,nuid,isVerified,role);
+            byte[] bytes = user.getPassword().getBytes();
+            user.setPassword(new String(Base64.getEncoder().encode(bytes)));
             userDAO.create(user);
 
         }
     }
+
+
 
 
 
