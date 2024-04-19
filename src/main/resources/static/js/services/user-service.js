@@ -4,7 +4,7 @@ import { showToast } from "../common/toast.js";
 const basePath = '/api/users';
 
 export const uploadCertificate = (formData) => {
-    const onSuccess = (data) => showToast('Certificate uploaded successfully', 'success');
+    const onSuccess = (data) => showToast('You have 1 new notification', 'success');
     const onError = (data) => showToast('Certificate not uploaded.', 'fail');
     const makeUploadRequestCallbackFunction = (data) => makeRequestFormData(basePath+'/'+data+'/certificates', 'POST', formData, onSuccess, onError);
     getUserId(makeUploadRequestCallbackFunction);

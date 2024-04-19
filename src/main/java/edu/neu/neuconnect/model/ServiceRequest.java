@@ -4,6 +4,7 @@ package edu.neu.neuconnect.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Data
@@ -24,4 +25,5 @@ public abstract class ServiceRequest {
     private int karma;
     @Enumerated(EnumType.STRING)
     private ServiceType type;
+    private Date createdAt = new Date();
 }

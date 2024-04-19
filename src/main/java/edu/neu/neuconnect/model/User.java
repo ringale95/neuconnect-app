@@ -34,6 +34,7 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonIgnore
+    @OrderBy("id DESC")
     private List<Certificate> certificates = new ArrayList<>();
 
 

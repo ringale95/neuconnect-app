@@ -111,9 +111,9 @@ public class UserController {
         Certificate certificate = new Certificate(false, saveFileAndReturnPath(file,id, type), type);
         userDAO.addCertificateToUser(id, certificate);
         notificationDAO.push(id, "For user - "+ id + ", Certificate for type " + type + " added succesfully and is sent for verification!");
-        long serviceRequestId = serviceDAO.newIndividualRequests(id, "Review Certificate for USER:" + id + " of type:" + type, "",0,userDAO.getAuthorityId());
-        notificationDAO.push(id, "Service Request for Certificate review sent to Authority. The tracking number of service request is " + serviceRequestId);
-        notificationDAO.push(userDAO.getAuthorityId(), "Service Request: "+ serviceRequestId+" for Certificate has been assigned for your review");
+        long serviceRequestId = serviceDAO.newIndividualRequests(id, "Review Certificate for USER:" + id + " of type: " + type + ". This request is for reviewing and validating the certificate of the user with ID: " + id + ".", "Certificate Review Request",0,userDAO.getAuthorityId(), type);
+        notificationDAO.push(id, "Service Request for Certificate review has been successfully submitted to the Authority. You can track the status of your request using the tracking number: " + serviceRequestId);
+        notificationDAO.push(userDAO.getAuthorityId(), "A new service request for Certificate review has been assigned to you. Please review the request with tracking number: " + serviceRequestId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

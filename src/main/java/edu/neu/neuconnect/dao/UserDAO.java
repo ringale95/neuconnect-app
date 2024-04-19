@@ -209,4 +209,52 @@
                 throw new RuntimeException(e);
             }
         }
+
+        public boolean isVerifiedAsTutor(long userId) throws Exception {
+            try {
+                begin();
+                User existingUser = getSession().get(User.class, userId);
+                boolean isVerified = isCertificateListTutorVerified(existingUser.getCertificates());
+                commit();
+                close();
+                return isVerified;
+            } catch (HibernateException e) {
+                rollback();
+                throw new Exception("Exception while creating user: " + e.getMessage());
+            }
+        }
+
+        private boolean isCertificateListTutorVerified(List<Certificate> certificates) {
+            if(certificates.size() == 0)
+                return false;
+            for(Certificate certificate : certificates){
+                if(certificate.isApprovedAsTutor())
+                    return true;
+            }
+            return false;
+        }
+
+        public Object isVerifiedAsCareerConsultant(long userId) throws Exception {
+            try {
+                begin();
+                User existingUser = getSession().get(User.class, userId);
+                boolean isVerified = isCertificateListCareerConsultantVerified(existingUser.getCertificates());
+                commit();
+                close();
+                return isVerified;
+            } catch (HibernateException e) {
+                rollback();
+                throw new Exception("Exception while creating user: " + e.getMessage());
+            }
+        }
+
+        private boolean isCertificateListCareerConsultantVerified(List<Certificate> certificates) {
+            if(certificates.size() == 0)
+                return false;
+            for(Certificate certificate : certificates){
+                if(certificate.isApprovedAsCareerConsultant())
+                    return true;
+            }
+            return false;
+        }
     }

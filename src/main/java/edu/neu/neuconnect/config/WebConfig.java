@@ -67,4 +67,23 @@ public class WebConfig {
         return registrationBean;
     }
 
+    @Bean
+    public FilterRegistrationBean<CheckTutor> checkTutor() {
+        FilterRegistrationBean<CheckTutor> registrationBean = new FilterRegistrationBean<>();
+        registrationBean.setFilter(new CheckTutor());
+        registrationBean.addUrlPatterns("/services/tutor-dashboard");
+        registrationBean.setOrder(2);
+        return registrationBean;
+    }
+
+
+    @Bean
+    public FilterRegistrationBean<CheckConsultant> checkCounsellor() {
+        FilterRegistrationBean<CheckConsultant> registrationBean = new FilterRegistrationBean<>();
+        registrationBean.setFilter(new CheckConsultant());
+        registrationBean.addUrlPatterns("/services/career-dashboard");
+        registrationBean.setOrder(2);
+        return registrationBean;
+    }
+
 }
