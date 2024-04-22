@@ -82,7 +82,7 @@ public abstract class DAO<T> {
     }
 
     public T create(T entity) throws Exception {
-        try{
+        try {
             begin();
             getSession().save(entity);
             commit();

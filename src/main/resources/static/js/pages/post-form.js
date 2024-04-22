@@ -1,4 +1,4 @@
-import { createPost } from '../services/post-service';
+import { createPost } from '../services/post-service.js';
 
 if (window.location.pathname.includes('/create-post')) {
     document.addEventListener('DOMContentLoaded', () => {    
@@ -11,16 +11,10 @@ if (window.location.pathname.includes('/create-post')) {
 }
 
 const handleSubmit = (event) => {
-
-    // Get Form data
-
-    // Convert to Post
-    const post = {
-        title: "Test Title",
-        description: "Test description"
-    };
-
-    // Create Post
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const post = Object.fromEntries(formData.entries());
+    post.tags = post.tags.split(',');
     createPost(post);
 }
 

@@ -14,7 +14,7 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@NamedQuery(name="all roles", query ="FROM User")
+@NamedQuery(name = "all roles", query = "FROM User")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,6 +28,7 @@ public class User {
     private String password;
     private String nuid;
     private boolean isVerified;
+    private String aboutMe;
     @Enumerated(EnumType.STRING)
     private RoleTypes role;
     private String profilepicPath = "/images/generic-image.png";
@@ -37,8 +38,8 @@ public class User {
     @OrderBy("id DESC")
     private List<Certificate> certificates = new ArrayList<>();
 
-
-    public User(String fname, String lname, String gender, Date dob, String username, String password, String nuid, boolean isVerified, RoleTypes role) {
+    public User(String fname, String lname, String gender, Date dob, String username, String password, String nuid,
+            String aboutMe, RoleTypes role, String profilepicPath) {
         this.fname = fname;
         this.lname = lname;
         this.gender = gender;
@@ -46,8 +47,9 @@ public class User {
         this.username = username;
         this.password = password;
         this.nuid = nuid;
-        this.isVerified = isVerified;
+        this.aboutMe = aboutMe;
         this.role = role;
+        this.profilepicPath = profilepicPath;
     }
 
     public void addCertificate(Certificate certificate) {

@@ -1,5 +1,8 @@
 package edu.neu.neuconnect.controller.rest.options;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.sun.istack.NotNull;
 import edu.neu.neuconnect.model.NotificationStatus;
 import edu.neu.neuconnect.model.ServiceRequest;
@@ -18,6 +21,7 @@ public class FilterOption {
     private ServiceType type;
     private int karmaMin;
     private int karmaMax;
+    private List<String> tag = new ArrayList<>();
 
     public boolean isEmpty() {
         return karmaMax == 0 && karmaMin == 0 && this.type == null && searchKey.equals("");

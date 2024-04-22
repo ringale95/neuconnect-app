@@ -29,12 +29,19 @@
         <img src="${pageContext.request.contextPath}/images/access-denied.png" alt="Access Denied" class="img-fluid">
         <h1>Access Denied!</h1>
         <p>Sorry, you don't have permission to access this page.</p>
-        <a href="/" class="btn btn-primary">Go Back Home</a>
+        <button class="btn btn-primary" onclick="goBack()">Go Back</button>
     </div>
 
     <!-- Bootstrap JS (optional) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-Lfv4JIMDo1E7HCrH6eLtwafaxOjJdFfCgQqyjSuhfD8Y+FN1h67CSbcwAM1pF6El" crossorigin="anonymous">
+    </script>
+
+    <!-- JavaScript to go back one page -->
+    <script>
+        function goBack() {
+            window.history.back();
+        }
     </script>
 </body>
 

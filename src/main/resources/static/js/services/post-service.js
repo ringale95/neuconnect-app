@@ -13,3 +13,16 @@ export const getPost = (id, onSuccess, onError) => {
     makeRequest(basePath + '/' + id, 'GET', post, onSuccess, onError);
 }
 
+export const getPaginatedLists = (options, onSuccess, onError) => {
+    makeRequest(basePath + '/fetch', 'POST',options, onSuccess, onError);
+}
+
+export const upvoteThisPost = (id, onSuccess) => {
+    const onError = (data) => showToast('Request Failed', 'fail');
+    makeRequest(basePath + '/' + id + '/upvote', 'GET', {}, onSuccess, onError);
+}
+
+export const downvoteThisPost = (id, onSuccess) => {
+    const onError = (data) => showToast('Request Failed', 'fail');
+    makeRequest(basePath + '/' + id + '/downvote', 'GET', {}, onSuccess, onError);
+}

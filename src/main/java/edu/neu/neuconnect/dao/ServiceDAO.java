@@ -13,13 +13,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ServiceDAO extends DAO{
+public class ServiceDAO extends DAO {
     public ServiceDAO() {
         super(ServiceRequest.class, "ServiceRequest");
     }
 
-    public long newIndividualRequests(long authorId, String description, String title, int karma, long serverId, ServiceType type) throws Exception {
-        try{
+    public long newIndividualRequests(long authorId, String description, String title, int karma, long serverId,
+            ServiceType type) throws Exception {
+        try {
             begin();
             IndividualRequest serviceRequest = new IndividualRequest();
             serviceRequest.setTitle(title);
@@ -49,7 +50,7 @@ public class ServiceDAO extends DAO{
             int pageCount = query.getResultList().size();
             commit();
             close();
-            return (int) Math.ceil((double)pageCount / option.getPageSize());
+            return (int) Math.ceil((double) pageCount / option.getPageSize());
         } catch (HibernateException e) {
             rollback();
             throw new RuntimeException(e);
@@ -81,7 +82,7 @@ public class ServiceDAO extends DAO{
         CriteriaQuery criteriaQuery = criteriaBuilder.createQuery(ServiceRequest.class);
         Root<ServiceRequest> root = criteriaQuery.from(ServiceRequest.class);
 
-        if(filterOption == null || filterOption.isEmpty())
+        if (filterOption == null || filterOption.isEmpty())
             criteriaQuery.select(root);
         else
             criteriaQuery.select(root).where(getPredicateByFilterOption(criteriaBuilder, filterOption, root, userId));
@@ -92,37 +93,40 @@ public class ServiceDAO extends DAO{
         return query;
     }
 
-    private List<Order> getOrderBySortOption(CriteriaBuilder criteriaBuilder, SortOption sortOption, Root<ServiceRequest> root, long userId) {
+    private List<Order> getOrderBySortOption(CriteriaBuilder criteriaBuilder, SortOption sortOption,
+            Root<ServiceRequest> root, long userId) {
         List<Order> orders = new ArrayList<>();
-        if(sortOption == null || sortOption.getKey() == null || sortOption.getType() == null) {
+        if (sortOption == null || sortOption.getKey() == null || sortOption.getType() == null) {
             orders.add(criteriaBuilder.desc(root.get("createdAt")));
             return orders;
         }
-        if(sortOption.getType().equals("ASC")){
+        if (sortOption.getType().equals("ASC")) {
             orders.add(criteriaBuilder.asc(root.get(sortOption.getKey())));
-        }else
+        } else
             orders.add(criteriaBuilder.desc(root.get(sortOption.getKey())));
         return orders;
     }
 
-    private Predicate getPredicateByFilterOption(CriteriaBuilder criteriaBuilder, FilterOption filterOption, Root<ServiceRequest> root, long userId) {
+    private Predicate getPredicateByFilterOption(CriteriaBuilder criteriaBuilder, FilterOption filterOption,
+            Root<ServiceRequest> root, long userId) {
         Join<ServiceRequest, User> authorJoin = root.join("author");
 
         Predicate fnameMatch = criteriaBuilder.like(authorJoin.get("fname"), "%" + filterOption.getSearchKey() + "%");
         Predicate lnameMatch = criteriaBuilder.like(authorJoin.get("lname"), "%" + filterOption.getSearchKey() + "%");
-        Predicate usernameMatch = criteriaBuilder.like(authorJoin.get("username"), "%" + filterOption.getSearchKey() + "%");
-        Predicate orExpression = criteriaBuilder.or( fnameMatch, lnameMatch, usernameMatch);
+        Predicate usernameMatch = criteriaBuilder.like(authorJoin.get("username"),
+                "%" + filterOption.getSearchKey() + "%");
+        Predicate orExpression = criteriaBuilder.or(fnameMatch, lnameMatch, usernameMatch);
 
-        if( filterOption.getType() != null){
+        if (filterOption.getType() != null) {
             Predicate serviceType = criteriaBuilder.equal(root.get("type"), filterOption.getType());
             orExpression = criteriaBuilder.and(orExpression, serviceType);
         }
-        if( filterOption.getType() != null){
+        if (filterOption.getType() != null) {
             Predicate karmin = criteriaBuilder.greaterThanOrEqualTo(root.get("karma"), filterOption.getKarmaMin());
             orExpression = criteriaBuilder.and(orExpression, karmin);
         }
 
-        if( filterOption.getType() != null){
+        if (filterOption.getType() != null) {
             Predicate karmax = criteriaBuilder.lessThanOrEqualTo(root.get("karma"), filterOption.getKarmaMax());
             orExpression = criteriaBuilder.and(orExpression, karmax);
         }
