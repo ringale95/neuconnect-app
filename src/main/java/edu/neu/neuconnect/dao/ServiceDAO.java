@@ -64,7 +64,8 @@ public class ServiceDAO extends DAO {
             Query<ServiceRequest> query = getPaginatedQuery(options, userId);
             query.setFirstResult(firstResult);
             query.setMaxResults(options.getPageSize());
-            List result = query.getResultList();
+            User loggedInUser = getSession().get(User.class, userId);
+            List result = setBtnStatus(query.getResultList(), loggedInUser);
             commit();
             close();
             return result;
@@ -72,6 +73,49 @@ public class ServiceDAO extends DAO {
             rollback();
             throw new RuntimeException(e);
         }
+    }
+
+    private List setBtnStatus(List<ServiceRequest> resultList, User loggedInUser) {
+
+        for (ServiceRequest service : resultList) {
+
+            if (service instanceof IndividualRequest) {
+
+                IndividualRequest isr = (IndividualRequest) service;
+
+                if (isr.getStatus().equals(ServiceRequestStatus.UNASSIGNED))
+                    isr.setShowAssignedBtn(true);
+
+                else if (isr.getStatus().equals(ServiceRequestStatus.INPROGRESS)
+                        && (loggedInUser.equals(isr.getAuthor())))
+                    service.setShowCompleteBtn(true);
+
+                else if (isr.getServer().equals(loggedInUser)
+                        && isr.getStatus().equals(ServiceRequestStatus.ASSIGNED)) {
+                    service.setShowInProgressBtn(true);
+                }
+
+            } else if (service instanceof MultipleServiceRequest) {
+
+                MultipleServiceRequest msr = (MultipleServiceRequest) service;
+
+                if (!(msr.getParticipants().contains(loggedInUser))
+                        && (msr.getStatus().equals(ServiceRequestStatus.UNASSIGNED)
+                                || msr.getStatus().equals(ServiceRequestStatus.PENDING)))
+                    msr.setShowEnrollBtn(true);
+
+                else if (msr.getStatus().equals(ServiceRequestStatus.PENDING) && msr.getAuthor().equals(loggedInUser))
+                    msr.setShowInProgressBtn(true);
+
+                else if (msr.getStatus().equals(ServiceRequestStatus.INPROGRESS)
+                        && msr.getAuthor().equals(loggedInUser))
+                    msr.setShowCompleteBtn(true);
+            }
+
+        }
+
+        return resultList;
+
     }
 
     private Query<ServiceRequest> getPaginatedQuery(PaginationOption options, long userId) throws Exception {
@@ -133,6 +177,104 @@ public class ServiceDAO extends DAO {
 
         return orExpression;
 
+    }
+
+    public ServiceRequest createServiceRequestByType(String type, String title, String description, int karma,
+            long userId) {
+        try {
+            begin();
+            ServiceRequest request = createServiceRequestBasedOnType(type, title, description, karma);
+            User user = getSession().get(User.class, userId);
+            request.setAuthor(user);
+            request.setStatus(ServiceRequestStatus.UNASSIGNED);
+            getSession().save(request);
+            commit();
+            close();
+            return request;
+        } catch (HibernateException e) {
+            rollback();
+            throw new RuntimeException(e);
+        }
+    }
+
+    private ServiceRequest createServiceRequestBasedOnType(String type, String title, String description, int karma) {
+        if (type.equals("Individual"))
+            return new IndividualRequest(title, description, karma);
+        else
+            return new MultipleServiceRequest(title, description, karma);
+
+    }
+
+    public void assignUserToService(long id, long userId) {
+        try {
+            begin();
+            User loggedInUser = getSession().get(User.class, userId);
+            ServiceRequest req = getSession().get(ServiceRequest.class, id);
+            IndividualRequest isr = (IndividualRequest) req;
+            isr.setServer(loggedInUser);
+            isr.setStatus(ServiceRequestStatus.ASSIGNED);
+            commit();
+            close();
+        } catch (HibernateException e) {
+            rollback();
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    public ServiceRequest getById(long id) {
+        try {
+            begin();
+            ServiceRequest req = getSession().get(ServiceRequest.class, id);
+            commit();
+            close();
+            return req;
+        } catch (HibernateException e) {
+            rollback();
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void enrollUserToService(long id, long userId) {
+        try {
+            begin();
+            User loggedInUser = getSession().get(User.class, userId);
+            ServiceRequest req = getSession().get(ServiceRequest.class, id);
+            MultipleServiceRequest msr = (MultipleServiceRequest) req;
+            msr.addParticipant(loggedInUser);
+            msr.setStatus(ServiceRequestStatus.PENDING);
+            commit();
+            close();
+        } catch (HibernateException e) {
+            rollback();
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void completeService(long id, long attribute) {
+        try {
+            begin();
+            ServiceRequest req = getSession().get(ServiceRequest.class, id);
+            req.setStatus(ServiceRequestStatus.COMPLETED);
+            commit();
+            close();
+        } catch (HibernateException e) {
+            rollback();
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void inProgressService(long id, long attribute) {
+        try {
+            begin();
+            ServiceRequest req = getSession().get(ServiceRequest.class, id);
+            req.setStatus(ServiceRequestStatus.INPROGRESS);
+            commit();
+            close();
+        } catch (HibernateException e) {
+            rollback();
+            throw new RuntimeException(e);
+        }
     }
 
 }

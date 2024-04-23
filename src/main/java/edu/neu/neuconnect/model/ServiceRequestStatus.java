@@ -4,6 +4,5 @@ public enum ServiceRequestStatus {
     UNASSIGNED,
     ASSIGNED,
     INPROGRESS,
-    COMPLETED,
-    CANCELLED
+    COMPLETED, PENDING,
 }

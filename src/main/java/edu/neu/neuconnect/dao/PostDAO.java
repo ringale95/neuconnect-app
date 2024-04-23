@@ -2,9 +2,11 @@ package edu.neu.neuconnect.dao;
 
 import edu.neu.neuconnect.controller.rest.options.FilterOption;
 import edu.neu.neuconnect.controller.rest.options.PaginationOption;
+import edu.neu.neuconnect.model.Comment;
 import edu.neu.neuconnect.model.Post;
 import edu.neu.neuconnect.model.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -123,10 +125,29 @@ public class PostDAO extends DAO<Post> {
             // Fetch user object from the database based on id
             begin();
             Post entity = getSession().get(Post.class, id);
+            User user = getSession().get(User.class, userId);
             entity.downvote();
+            entity.removeUserFromLikedList(user);
             commit();
             close();
 
+        } catch (HibernateException e) {
+
+            rollback();
+            // throw new AdException("Could not fetch user with id: " + id, e);
+            throw new Exception("Exception while fetching user with id: " + id + ", " + e.getMessage());
+        }
+    }
+
+    public List<Comment> getComments(long id) throws Exception {
+        try {
+            // Fetch user object from the database based on id
+            begin();
+            Post entity = getSession().get(Post.class, id);
+            List<Comment> comments = new ArrayList<>(entity.getComments());
+            commit();
+            close();
+            return comments;
         } catch (HibernateException e) {
 
             rollback();

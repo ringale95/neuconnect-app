@@ -26,3 +26,14 @@ export const downvoteThisPost = (id, onSuccess) => {
     const onError = (data) => showToast('Request Failed', 'fail');
     makeRequest(basePath + '/' + id + '/downvote', 'GET', {}, onSuccess, onError);
 }
+
+export const addCommentToPost = (id, comment, onSuccess) => {
+    const onError = (data) => showToast('Request Failed', 'fail');
+    makeRequest(basePath + '/' + id + '/comment', 'POST', comment, onSuccess, onError);
+}
+
+export const getCommentsOnPost = (id, onSuccess) =>{
+    const onError = (data) => showToast('Request Failed', 'fail');
+    makeRequest(basePath + '/' + id + '/comment', 'GET', {}, onSuccess, onError);
+}
+ 

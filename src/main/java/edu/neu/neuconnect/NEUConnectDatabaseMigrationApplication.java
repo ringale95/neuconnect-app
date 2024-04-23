@@ -51,7 +51,7 @@ public class NEUConnectDatabaseMigrationApplication {
             boolean isVerified = row.getCell(7).getBooleanCellValue();
             RoleTypes role = RoleTypes.valueOf(row.getCell(8).getStringCellValue());
             String aboutMe = row.getCell(9).getStringCellValue();
-            User user = new User(fname, lname, gender, dob, username, password, nuid, isVerified, aboutMe, role);
+            User user = new User(fname, lname, gender, dob, username, password, nuid, aboutMe, role);
             byte[] bytes = user.getPassword().getBytes();
             user.setPassword(new String(Base64.getEncoder().encode(bytes)));
             userDAO.create(user);

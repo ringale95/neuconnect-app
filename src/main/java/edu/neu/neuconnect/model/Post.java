@@ -46,9 +46,8 @@ public class Post {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<String> tags = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "post_id")
-    @JsonIgnore
     private List<Comment> comments = new ArrayList<>();
 
     @ManyToMany
@@ -74,6 +73,14 @@ public class Post {
 
     public void downvote() {
         this.upvotes--;
+    }
+
+    public void removeUserFromLikedList(User user) {
+        likedBy.remove(user);
+    }
+
+    public void addComment(Comment entity) {
+        comments.add(entity);
     }
 
 }

@@ -1,6 +1,7 @@
 package edu.neu.neuconnect.controller.rest;
 
 import edu.neu.neuconnect.controller.rest.options.PaginationOption;
+import edu.neu.neuconnect.controller.rest.types.CommentResponse;
 import edu.neu.neuconnect.controller.rest.types.PaginationResponseType;
 import edu.neu.neuconnect.controller.rest.types.UpvoteResult;
 import edu.neu.neuconnect.dao.CommentDAO;
@@ -68,10 +69,19 @@ public class PostController {
     }
 
     @PostMapping("/{id}/comment")
-    public Post addComment(@PathVariable int id, @RequestBody Comment comment, HttpSession session) throws Exception {
-        Comment addedComment = commentDAO.create(comment);
-        Post existingPost = postDAO.getById(id);
-        return existingPost;
+    public Comment addComment(@PathVariable int id, @RequestBody Comment comment, HttpSession session)
+            throws Exception {
+        long userId = (long) session.getAttribute("userId");
+        Comment addedComment = commentDAO.create(comment, id, userId);
+        return addedComment;
+    }
+
+    @GetMapping("/{id}/comment")
+    public CommentResponse getComments(@PathVariable long id)
+            throws Exception {
+        System.out.println("Post ID: " + id);
+        List<Comment> comments = postDAO.getComments(id);
+        return new CommentResponse(comments, id);
     }
 
     @PostMapping("/fetch")

@@ -24,18 +24,20 @@ public class UserDashboardController {
 
     @Autowired
     private UserDAO userDAO;
+
     @GetMapping
-    public ModelAndView handleGet(){
+    public ModelAndView handleGet() {
         return new ModelAndView("user-dashboard/user-dashboard");
     }
 
     @GetMapping("/manage-users")
     public ModelAndView manageUsers() throws Exception {
         Map<String, Object> model = new HashMap<>();
-        List<User> users = userDAO.pagination(new PaginationOption(12,1, new FilterOption(), new SortOption()));
+        List<User> users = userDAO.pagination(new PaginationOption(12, 1, new FilterOption(), new SortOption()));
         model.put("users", users);
         model.put("pageNumber", 1);
-        model.put("totalPages", userDAO.getPageCount(new PaginationOption(12,1, new FilterOption(), new SortOption())));
+        model.put("totalPages",
+                userDAO.getPageCount(new PaginationOption(12, 1, new FilterOption(), new SortOption())));
         return new ModelAndView("user-dashboard/manage-users/manage-users", model);
     }
 
@@ -46,5 +48,14 @@ public class UserDashboardController {
         model.put("user", user);
         model.put("roles", RoleTypes.values());
         return new ModelAndView("user-dashboard/manage-users/edit/user-edit", model);
+    }
+
+    @GetMapping("/user-profile/{id}")
+    public ModelAndView userProfile(@PathVariable long id) throws Exception {
+        Map<String, Object> model = new HashMap<>();
+        User user = userDAO.getById(id);
+        model.put("user", user);
+        model.put("roles", RoleTypes.values());
+        return new ModelAndView("user-profile", model);
     }
 }

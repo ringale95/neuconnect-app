@@ -31,7 +31,8 @@
                             style="width: 100px; height: 100px;">
                     </div>
                     <div class="card-body" style="height: 15rem;">
-                        <h5 class="card-title mt-2">${user.fname}&nbsp;${user.lname}</h5>
+                        <h5 class="card-title mt-2"><a
+                                href="/user-dashboard/user-profile/${user.id}">${user.fname}&nbsp;${user.lname}</a></h5>
                         <p class="card-text">${user.aboutMe}</p>
                         <p>Karma: <strong>${user.karma}</strong> points<br>Access Level: <strong>${user.role}</strong>
                         </p>

@@ -17,8 +17,12 @@ export const createCardHeader = (author) => {
 
     // Create text node for username
     const username = createTextNode(" "+author.fname + ' ' + author.lname);
+    const anchor = document.createElement('a');
+    anchor.href = "/user-dashboard/user-profile/" + author.id;
+    anchor.appendChild(username);
+
     cardHeader.appendChild(img);
-    cardHeader.appendChild(username);
+    cardHeader.appendChild(anchor);
 
     return cardHeader;
 };

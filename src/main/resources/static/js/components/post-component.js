@@ -10,7 +10,7 @@ export const renderPost = (post) => {
     const cardFooter = createCardFooter();
     const likeButton = createLikeButton(post.id, post.upvotes);
     const dislikeButton = createDislikeButton(post.id, post.upvotes);
-    const commentButton = createCommentButton();
+    const commentButton = createCommentButton(post.id);
 
     if(post.liked)
         cardFooter.appendChild(dislikeButton);

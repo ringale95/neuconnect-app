@@ -52,8 +52,29 @@ public class User {
         this.profilepicPath = profilepicPath;
     }
 
+    public User(String fname, String lname, String gender, Date dob, String username, String password, String nuid,
+            String aboutMe, RoleTypes role) {
+        this.fname = fname;
+        this.lname = lname;
+        this.gender = gender;
+        this.dob = dob;
+        this.username = username;
+        this.password = password;
+        this.nuid = nuid;
+        this.aboutMe = aboutMe;
+        this.role = role;
+    }
+
     public void addCertificate(Certificate certificate) {
         certificates.add(certificate);
         certificate.setUser(this);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + this.fname + '\'' +
+                ", age=" + this.gender +
+                '}';
     }
 }

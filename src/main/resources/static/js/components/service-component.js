@@ -1,3 +1,4 @@
+import { renderBtn } from './service-component-button.js';
 export const getServiceCard = (service) => {
 
     const card = document.createElement("div");
@@ -10,6 +11,9 @@ export const getServiceCard = (service) => {
     title.classList.add("card-title");
     title.textContent = service.title == "" ? "Service Title": service.title;
 
+    const anchor = document.createElement('a');
+    anchor.href="/services/service-status/" + service.id;
+    anchor.appendChild(title);
 
     const description = document.createElement("p");
     description.classList.add("card-text");
@@ -22,11 +26,19 @@ export const getServiceCard = (service) => {
     const author = document.createElement("p");
     author.classList.add("card-text");
     author.textContent = "Author: " + service.author.fname;
+    
+    let button;
+    if(service.showAssignedBtn || service.showInProgressBtn || service.showCompleteBtn || service.showEnrollBtn){
+        button = renderBtn(service);
+    }
 
-    cardBody.appendChild(title);
+    cardBody.appendChild(anchor);
     cardBody.appendChild(description);
     if(service.karma > 0) cardBody.appendChild(karma);
     cardBody.appendChild(author);
+    if(service.showAssignedBtn || service.showInProgressBtn || service.showCompleteBtn || service.showEnrollBtn){
+        cardBody.appendChild(button);
+    }
     card.appendChild(cardBody);
 
     return card;
