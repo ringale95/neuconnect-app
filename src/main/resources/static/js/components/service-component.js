@@ -26,6 +26,10 @@ export const getServiceCard = (service) => {
     const author = document.createElement("p");
     author.classList.add("card-text");
     author.textContent = "Author: " + service.author.fname;
+
+    const type = document.createElement("p");
+    type.classList.add("card-text");
+    type.textContent = "Type of Service: " + service.type;
     
     let button;
     if(service.showAssignedBtn || service.showInProgressBtn || service.showCompleteBtn || service.showEnrollBtn){

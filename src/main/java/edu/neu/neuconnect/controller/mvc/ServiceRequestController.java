@@ -103,12 +103,13 @@ public class ServiceRequestController {
     }
 
     @PostMapping("/session-form")
-    public void createSession(@RequestParam("serviceType") String type,
+    public void createSession(@RequestParam("serviceType") String serviceType,
             @RequestParam("title") String title,
             @RequestParam("description") String description,
-            @RequestParam("karma") int karma, HttpSession session, HttpServletResponse response) throws Exception {
+            @RequestParam("karma") int karma, @RequestParam("type") ServiceType type, HttpSession session,
+            HttpServletResponse response) throws Exception {
         long userId = (long) session.getAttribute("userId");
-        serviceDAO.createServiceRequestByType(type, title, description, karma, userId);
+        serviceDAO.createServiceRequestByType(serviceType, title, description, karma, userId, type);
         notificationDAO.push(userId, "For user - " + userId + ", Service Request of type: " + type
                 + " added succesfully and is currently Unassigned!");
         response.sendRedirect("trainer-dashboard");

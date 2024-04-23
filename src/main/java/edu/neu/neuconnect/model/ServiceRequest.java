@@ -17,7 +17,13 @@ public abstract class ServiceRequest {
     }
 
     public ServiceRequest() {
-        // TODO Auto-generated constructor stub
+    }
+
+    public ServiceRequest(String title2, String description2, int karma2, ServiceType type2) {
+        this.title = title2;
+        this.description = description2;
+        this.karma = karma2;
+        this.type = type2;
     }
 
     @Id

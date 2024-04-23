@@ -14,9 +14,17 @@ public class IndividualRequest extends ServiceRequest {
         super(title, description, karma);
     }
 
-    public IndividualRequest() {
-        super();
+    public IndividualRequest(String title, String description, int karma, ServiceType type) {
+        super(title, description, karma, type);
     }
+
+    public IndividualRequest() {
+        // TODO Auto-generated constructor stub
+    }
+
+    @OneToOne
+    @JoinColumn(name = "cert_id", nullable = true)
+    private Certificate certificateAttached;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "server_id", nullable = true)

@@ -3,6 +3,7 @@
 <%@ taglib tagdir="/WEB-INF/tags/commons" prefix="cm" %>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,7 +12,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         img {
-          border-radius: 10%;
+            border-radius: 10%;
         }
 
         /* Hero Section */
@@ -25,7 +26,8 @@
 
         /* Service Section */
         .service-section {
-            padding: 80px 0; /* Increased space between sections */
+            padding: 80px 0;
+            /* Increased space between sections */
             transition: background-color 0.5s, color 0.5s;
         }
 
@@ -36,12 +38,15 @@
         .service-section .service-img {
             padding: 0 15px;
             transition: transform 0.5s;
-            border-radius: 15px; /* Rounded borders */
-            overflow: hidden; /* Prevents image overflow */
+            border-radius: 15px;
+            /* Rounded borders */
+            overflow: hidden;
+            /* Prevents image overflow */
         }
 
         .service-section .service-img img {
-            width: 100%; /* Make images responsive */
+            width: 100%;
+            /* Make images responsive */
             height: auto;
         }
 
@@ -51,12 +56,14 @@
         }
 
         .service-section .service-info ul li a {
-            color: #4CAF50; /* Change link color */
+            color: #4CAF50;
+            /* Change link color */
             transition: color 0.3s;
         }
 
         .service-section .service-info ul li a:hover {
-            color: #ff6666; /* Change link color on hover */
+            color: #ff6666;
+            /* Change link color on hover */
         }
 
         /* Apply transition on hover */
@@ -69,12 +76,14 @@
         }
     </style>
 </head>
+
 <body>
-    <cm:header/>
+    <cm:header />
     <section class="hero-section">
         <div class="container">
             <h1 class="display-2">Welcome to our Services Page!</h1>
-            <p class="display-6">NEUConnect offers a diverse range of services across different aspects of life. Connect with your peers to access and benefit from these varied services.</p>
+            <p class="display-6">NEUConnect offers a diverse range of services across different aspects of life. Connect
+                with your peers to access and benefit from these varied services.</p>
         </div>
     </section>
 
@@ -82,8 +91,10 @@
     <section class="service-section">
         <div class="container">
             <div class="row">
-                <div class="col-md-6 order-md-1 service-img rounded"> <!-- Added rounded class -->
-                    <img src="${pageContext.request.contextPath}/images/fitness-section.png" alt="Fitness Image" class="img-fluid">
+                <div class="col-md-6 order-md-1 service-img rounded">
+                    <!-- Added rounded class -->
+                    <img src="${pageContext.request.contextPath}/images/fitness-section.png" alt="Fitness Image"
+                        class="img-fluid">
                 </div>
                 <div class="col-md-6 order-md-2 service-info">
                     <h2>Fitness</h2>
@@ -106,11 +117,13 @@
                     <p>Improve your skills with our experienced tutors.</p>
                     <ul>
                         <li><a href="/services/tutor-dashboard">If you are a Tutor?</a></li>
-                        <li><a href="/services/tutoring-list">Register for Tutoring</a></li>
+                        <li><a href="/services/services-list">Register for Tutoring</a></li>
                     </ul>
                 </div>
-                <div class="col-md-6 service-img rounded"> <!-- Added rounded class -->
-                    <img src="${pageContext.request.contextPath}/images/tutoring-section.png" alt="Tutoring Image" class="img-fluid">
+                <div class="col-md-6 service-img rounded">
+                    <!-- Added rounded class -->
+                    <img src="${pageContext.request.contextPath}/images/tutoring-section.png" alt="Tutoring Image"
+                        class="img-fluid">
                 </div>
             </div>
         </div>
@@ -120,15 +133,17 @@
     <section class="service-section">
         <div class="container">
             <div class="row">
-                <div class="col-md-6 order-md-1 service-img rounded"> <!-- Added rounded class -->
-                    <img src="${pageContext.request.contextPath}/images/careers-section.png" alt="Career Consultation Image" class="img-fluid">
+                <div class="col-md-6 order-md-1 service-img rounded">
+                    <!-- Added rounded class -->
+                    <img src="${pageContext.request.contextPath}/images/careers-section.png"
+                        alt="Career Consultation Image" class="img-fluid">
                 </div>
                 <div class="col-md-6 order-md-2 service-info">
                     <h2>Career Consultation</h2>
                     <p>Plan your career with our expert consultants.</p>
                     <ul>
                         <li><a href="/services/career-dashboard">If you are a career consultant?</a></li>
-                        <li><a href="/services/career-list">Register for Career Consultation</a></li>
+                        <li><a href="/services/services-list">Register for Career Consultation</a></li>
                     </ul>
                 </div>
             </div>
@@ -138,4 +153,5 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

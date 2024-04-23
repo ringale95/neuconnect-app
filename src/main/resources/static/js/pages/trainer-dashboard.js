@@ -1,6 +1,6 @@
 import { uploadCertificate } from '../services/user-service.js';
 
-if (window.location.pathname.includes('/trainer-dashboard')) {
+if (window.location.pathname.includes('-dashboard')) {
     document.addEventListener('DOMContentLoaded', () => {
         const form = document.getElementById('upload-certificate-form');
         if(form){

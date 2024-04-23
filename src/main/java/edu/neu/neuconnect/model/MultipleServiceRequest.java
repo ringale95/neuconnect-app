@@ -26,4 +26,8 @@ public class MultipleServiceRequest extends ServiceRequest {
     public MultipleServiceRequest(String title, String description, int karma) {
         super(title, description, karma);
     }
+
+    public MultipleServiceRequest(String title, String description, int karma, ServiceType type) {
+        super(title, description, karma, type);
+    }
 }

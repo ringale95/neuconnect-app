@@ -63,14 +63,16 @@
                 </div>
 
                 <!-- Up Section -->
-                <div class="row border" style="padding: 40px; margin-top: 15px;">
-                    <div class="col-md-12">
-                        <h3 class="mt-4">Session Section</h3>
-                        <div>
-                            <a href="/services/session-form" class="btn btn-primary m-2">Start Sessions</a>
+                <c:if test="${verifiedTrainer}">
+                    <div class="row border" style="padding: 40px; margin-top: 15px;">
+                        <div class="col-md-12">
+                            <h3 class="mt-4">Session Section</h3>
+                            <div>
+                                <a href="/services/session-form" class="btn btn-primary m-2">Start Sessions</a>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </c:if>
             </div>
         </div>
     </div>

@@ -19,7 +19,7 @@ public class ServiceDAO extends DAO {
     }
 
     public long newIndividualRequests(long authorId, String description, String title, int karma, long serverId,
-            ServiceType type) throws Exception {
+            ServiceType type, Certificate certificate) throws Exception {
         try {
             begin();
             IndividualRequest serviceRequest = new IndividualRequest();
@@ -32,6 +32,8 @@ public class ServiceDAO extends DAO {
             serviceRequest.setKarma(karma);
             serviceRequest.setType(type);
             serviceRequest.setStatus(ServiceRequestStatus.ASSIGNED);
+            getSession().save(certificate);
+            serviceRequest.setCertificateAttached(certificate);
             getSession().save(serviceRequest);
             long requestId = serviceRequest.getId();
             commit();
@@ -179,11 +181,11 @@ public class ServiceDAO extends DAO {
 
     }
 
-    public ServiceRequest createServiceRequestByType(String type, String title, String description, int karma,
-            long userId) {
+    public ServiceRequest createServiceRequestByType(String serviceType, String title, String description, int karma,
+            long userId, ServiceType type) {
         try {
             begin();
-            ServiceRequest request = createServiceRequestBasedOnType(type, title, description, karma);
+            ServiceRequest request = createServiceRequestBasedOnType(serviceType, title, description, karma, type);
             User user = getSession().get(User.class, userId);
             request.setAuthor(user);
             request.setStatus(ServiceRequestStatus.UNASSIGNED);
@@ -197,11 +199,12 @@ public class ServiceDAO extends DAO {
         }
     }
 
-    private ServiceRequest createServiceRequestBasedOnType(String type, String title, String description, int karma) {
-        if (type.equals("Individual"))
-            return new IndividualRequest(title, description, karma);
+    private ServiceRequest createServiceRequestBasedOnType(String serviceType, String title, String description,
+            int karma, ServiceType type) {
+        if (serviceType.equals("Individual"))
+            return new IndividualRequest(title, description, karma, type);
         else
-            return new MultipleServiceRequest(title, description, karma);
+            return new MultipleServiceRequest(title, description, karma, type);
 
     }
 
@@ -275,6 +278,63 @@ public class ServiceDAO extends DAO {
             rollback();
             throw new RuntimeException(e);
         }
+    }
+
+    public List<IndividualRequest> getAssignedRequestByUserId(long userId) throws Exception {
+        try {
+            // Fetch all user objects from the database
+            begin();
+            Query query = getSession().createQuery("FROM ServiceRequest");
+            User user = getSession().get(User.class, userId);
+            List<IndividualRequest> list = filterRequestByServer(user, query.list());
+            commit();
+            close();
+            return list;
+        } catch (HibernateException e) {
+            rollback();
+            // throw new AdException("Could not fetch user list", e);
+            throw new Exception("Exception while getting user list: " + e.getMessage());
+        }
+    }
+
+    private List<IndividualRequest> filterRequestByServer(User user, List<ServiceRequest> list) {
+        List<IndividualRequest> tempListOfRequests = new ArrayList<>();
+        for (ServiceRequest req : list) {
+            if (req instanceof IndividualRequest) {
+                IndividualRequest isr = (IndividualRequest) req;
+                if (isr.getServer().equals(user) && isr.getStatus().equals(ServiceRequestStatus.ASSIGNED))
+                    tempListOfRequests.add(isr);
+            }
+        }
+        return tempListOfRequests;
+    }
+
+    public ServiceRequest approveRequest(long service_id) {
+        try {
+            begin();
+            ServiceRequest req = getSession().get(ServiceRequest.class, service_id);
+            req.setStatus(ServiceRequestStatus.COMPLETED);
+            commit();
+            close();
+            return req;
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+        return null;
+    }
+
+    public ServiceRequest rejectRequest(long service_id) {
+        try {
+            begin();
+            ServiceRequest req = getSession().get(ServiceRequest.class, service_id);
+            req.setStatus(ServiceRequestStatus.COMPLETED);
+            commit();
+            close();
+            return req;
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+        return null;
     }
 
 }

@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public enum ServiceType {
-        FITNESS,
-        TUTORING,
-        DANCER,
-
-        CAREERCONSULTANT;
+    FITNESS,
+    TUTORING,
+    DANCER,
+    CAREERCONSULTANT,
+    OTHER;
 
     public static List<ServiceType> getFitnessTypes() {
         List<ServiceType> fitnessTypes = new ArrayList<>();

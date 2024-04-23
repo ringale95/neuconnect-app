@@ -69,7 +69,7 @@ public class AuthenticationController {
             case COUNSELLOR:
                 return "services/career-dashboard";
             case AUTHORITY:
-                return "authority-dashboard";
+                return "user-dashboard/authority-dashboard";
             default:
                 return "user-dashboard/manage-users";
         }

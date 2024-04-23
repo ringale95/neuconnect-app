@@ -43,6 +43,16 @@
                                 <label for="karma" class="form-label">Karma</label>
                                 <input type="number" class="form-control" id="karma" name="karma" required>
                             </div>
+                            <div class="mb-3">
+                                <label for="karma" class="form-label">Category</label>
+                                <select class="form-select" id="type" name="type">
+                                    <option value="FITNESS">FITNESS</option>
+                                    <option value="TUTORING">TUTORING</option>
+                                    <option value="DANCER">DANCER</option>
+                                    <option value="CAREERCONSULTANT">CAREERCONSULTANT</option>
+                                    <option value="OTHER">OTHER</option>
+                                </select>
+                            </div>
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </form>
                     </div>
