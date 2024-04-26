@@ -85,14 +85,14 @@ public class ServiceDAO extends DAO {
 
                 IndividualRequest isr = (IndividualRequest) service;
 
-                if (isr.getStatus().equals(ServiceRequestStatus.UNASSIGNED))
+                if (isr.getStatus().equals(ServiceRequestStatus.UNASSIGNED) && !loggedInUser.equals(isr.getAuthor()))
                     isr.setShowAssignedBtn(true);
 
                 else if (isr.getStatus().equals(ServiceRequestStatus.INPROGRESS)
                         && (loggedInUser.equals(isr.getAuthor())))
                     service.setShowCompleteBtn(true);
 
-                else if (isr.getServer().equals(loggedInUser)
+                else if (isr.getServer() != null && (isr.getServer().equals(loggedInUser))
                         && isr.getStatus().equals(ServiceRequestStatus.ASSIGNED)) {
                     service.setShowInProgressBtn(true);
                 }
@@ -101,7 +101,7 @@ public class ServiceDAO extends DAO {
 
                 MultipleServiceRequest msr = (MultipleServiceRequest) service;
 
-                if (!(msr.getParticipants().contains(loggedInUser))
+                if (!loggedInUser.equals(msr.getAuthor()) && !(msr.getParticipants().contains(loggedInUser))
                         && (msr.getStatus().equals(ServiceRequestStatus.UNASSIGNED)
                                 || msr.getStatus().equals(ServiceRequestStatus.PENDING)))
                     msr.setShowEnrollBtn(true);
@@ -259,11 +259,35 @@ public class ServiceDAO extends DAO {
             begin();
             ServiceRequest req = getSession().get(ServiceRequest.class, id);
             req.setStatus(ServiceRequestStatus.COMPLETED);
+            adjustKarmaForService(req);
             commit();
             close();
         } catch (HibernateException e) {
             rollback();
             throw new RuntimeException(e);
+        }
+    }
+
+    private void adjustKarmaForService(ServiceRequest req) {
+        if (req instanceof IndividualRequest) {
+            IndividualRequest isr = (IndividualRequest) req;
+
+            int amountToBeDeducted = isr.getKarma();
+            User server = isr.getServer();
+            server.setKarma(server.getKarma() + amountToBeDeducted);
+            User author = isr.getAuthor();
+            author.setKarma(author.getKarma() - amountToBeDeducted);
+        }
+
+        else if (req instanceof MultipleServiceRequest) {
+            MultipleServiceRequest msr = (MultipleServiceRequest) req;
+            // Deduct
+            List<User> participants = msr.getParticipants();
+            for (User participant : participants)
+                participant.setKarma(participant.getKarma() - msr.getKarma());
+            // Add
+            User author = msr.getAuthor();
+            author.setKarma(author.getKarma() + participants.size() * msr.getKarma());
         }
     }
 
