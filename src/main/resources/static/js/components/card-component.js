@@ -42,9 +42,16 @@ export const createCardBody = (post) => {
     cardText.classList.add('card-text');
     cardText.textContent = post.content;
 
+    const tags = post.tags;
     cardBody.appendChild(cardTitle);
     cardBody.appendChild(cardText);
 
+    tags.forEach(tag => {
+        const cardPill = document.createElement("span");
+        cardPill.classList.add('badge','text-bg-light');
+        cardPill.innerText = tag;
+        cardBody.appendChild(cardPill);
+    } )
     return cardBody;
 };
 

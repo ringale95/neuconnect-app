@@ -40,14 +40,14 @@ public class Post {
     private Date createdAt = new Date();
     private Date updatedAt = new Date();
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "tags", joinColumns = @JoinColumn(name = "post_id"))
     @Column(name = "tag")
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<String> tags = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "post_id")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Comment> comments = new ArrayList<>();
 
     @ManyToMany
