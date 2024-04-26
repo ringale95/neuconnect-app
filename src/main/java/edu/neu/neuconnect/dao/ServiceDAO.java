@@ -167,12 +167,12 @@ public class ServiceDAO extends DAO {
             Predicate serviceType = criteriaBuilder.equal(root.get("type"), filterOption.getType());
             orExpression = criteriaBuilder.and(orExpression, serviceType);
         }
-        if (filterOption.getType() != null) {
+        if (filterOption.getKarmaMin() != -999) {
             Predicate karmin = criteriaBuilder.greaterThanOrEqualTo(root.get("karma"), filterOption.getKarmaMin());
             orExpression = criteriaBuilder.and(orExpression, karmin);
         }
 
-        if (filterOption.getType() != null) {
+        if (filterOption.getKarmaMax() != -999) {
             Predicate karmax = criteriaBuilder.lessThanOrEqualTo(root.get("karma"), filterOption.getKarmaMax());
             orExpression = criteriaBuilder.and(orExpression, karmax);
         }
@@ -302,7 +302,8 @@ public class ServiceDAO extends DAO {
         for (ServiceRequest req : list) {
             if (req instanceof IndividualRequest) {
                 IndividualRequest isr = (IndividualRequest) req;
-                if (isr.getServer().equals(user) && isr.getStatus().equals(ServiceRequestStatus.ASSIGNED))
+                if (isr.getServer() != null
+                        && isr.getServer().equals(user) && isr.getStatus().equals(ServiceRequestStatus.ASSIGNED))
                     tempListOfRequests.add(isr);
             }
         }

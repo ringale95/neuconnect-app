@@ -115,7 +115,8 @@ public class UserController {
                 "Certificate Review Request", 0, userDAO.getAuthorityId(), type, attached);
         notificationDAO.push(id,
                 "Service Request for Certificate review has been successfully submitted to the Authority. You can track the status of your request using the tracking number: "
-                        + serviceRequestId);
+                        + "<a href=\"http://localhost:8080/services/service-status/" + serviceRequestId
+                        + "\">Link for Tracking</a>");
         notificationDAO.push(userDAO.getAuthorityId(),
                 "A new service request for Certificate review has been assigned to you. Please review the request with tracking number: "
                         + serviceRequestId);

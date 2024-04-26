@@ -109,10 +109,21 @@ public class ServiceRequestController {
             @RequestParam("karma") int karma, @RequestParam("type") ServiceType type, HttpSession session,
             HttpServletResponse response) throws Exception {
         long userId = (long) session.getAttribute("userId");
+        User loggedInUser = (User) session.getAttribute("user");
         serviceDAO.createServiceRequestByType(serviceType, title, description, karma, userId, type);
         notificationDAO.push(userId, "For user - " + userId + ", Service Request of type: " + type
                 + " added succesfully and is currently Unassigned!");
-        response.sendRedirect("trainer-dashboard");
+        switch (loggedInUser.getRole()) {
+            case TRAINER:
+                response.sendRedirect("trainer-dashboard");
+                break;
+            case TUTOR:
+                response.sendRedirect("tutor-dashboard");
+                break;
+            case COUNSELLOR:
+                response.sendRedirect("career-dashboard");
+                break;
+        }
     }
 
     @GetMapping("/service-status/{id}")

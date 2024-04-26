@@ -45,29 +45,38 @@ const onError = (error) => {
 };
 
 const displayNotifications = () => {
-    const notificationList = document.getElementById("notificationList");
-    notificationList.innerHTML = '';
+  const notificationList = document.getElementById("notificationList");
+  notificationList.innerHTML = '';
 
-    notifications.forEach(notification => {
-        const card = document.createElement("div");
-        card.classList.add("card");
+  notifications.forEach(notification => {
+      const card = document.createElement("div");
+      card.classList.add("card");
 
-        if (notification.notificationStatus === "GENERATED") {
-          card.classList.add("text-white","bg-primary", "mb-3");
-        } else
-            card.classList.add("text-dark","bg-light", "mb-3");
+      if (notification.notificationStatus === "GENERATED") {
+        card.classList.add("text-dark","bg-light", "mb-3");
+      } else
+          card.classList.add("text-dark","bg-light", "mb-3");
 
-        const cardBody = document.createElement("div");
-        cardBody.classList.add("card-body");
+      const cardBody = document.createElement("div");
+      cardBody.classList.add("card-body");
 
-        const cardText = document.createElement("p");
-        cardText.classList.add("card-text");
-        cardText.textContent = notification.message;
+      const cardText = document.createElement("p");
+      cardText.classList.add("card-text");
 
-        cardBody.appendChild(cardText);
-        card.appendChild(cardBody);
-        notificationList.appendChild(card);
-    });
+      const messageElement = document.createElement("span");
+      messageElement.innerHTML = notification.message;
+
+      cardText.appendChild(messageElement);
+
+      // Check if message contains an anchor tag
+      if (notification.message.includes("<a")) {
+          cardText.innerHTML = notification.message;
+      }
+
+      cardBody.appendChild(cardText);
+      card.appendChild(cardBody);
+      notificationList.appendChild(card);
+  });
 }
 
 

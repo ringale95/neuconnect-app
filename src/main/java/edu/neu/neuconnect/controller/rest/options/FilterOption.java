@@ -19,8 +19,8 @@ public class FilterOption {
     private boolean authority;
     private NotificationStatus status;
     private ServiceType type;
-    private int karmaMin;
-    private int karmaMax;
+    private int karmaMin = -999;
+    private int karmaMax = -999;
     private List<String> tag = new ArrayList<>();
 
     public boolean isEmpty() {
